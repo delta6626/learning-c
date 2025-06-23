@@ -100,23 +100,19 @@ machine-understandable form.
 
 ### Linking
 
-    After the compiler creates one or more object code files, the linker takes over.
+* After the compiler creates one or more object code files, the linker takes over.
 
-    The linker's job is to combine all the object files plus the necessary library code into a single executable program.
+* The linker's job is to combine all the object files plus the necessary library code into a single executable program.
 
-    Library functions are pre-written code routines (like those in stdio.h for input/output) that your program uses but you didn’t write yourself. These are provided by the system or compiler.
+* Library functions are pre-written code routines (like those in stdio.h for input/output) that your program uses but you didn’t write yourself. These are provided by the system or compiler.
 
-    The linker resolves references:
+* The linker resolves references:
 
-        For example, your code calls printf, but printf is defined in a system library, not your source code.
+* For example, your code calls printf, but printf is defined in a system library, not your source code. The linker finds the compiled printf code inside a C standard library file and connects it to your program.
 
-        The linker finds the compiled printf code inside a C standard library file and connects it to your program.
+* Linking also resolves references between your own object files if you have multiple source files calling functions in each other.
 
-    Linking also resolves references between your own object files if you have multiple source files calling functions in each other.
-
-    The output of the linker is a complete executable program that can run on your computer or target platform.
-
-    So, the linker “fills in the gaps” left in the object code, ensuring every function call and variable reference points to the correct place.
+* The output of the linker is a complete executable program that can run on your computer or target platform.
 
 ## Step 3: Test Run
 
