@@ -161,3 +161,25 @@ Used to define symbolic constants and macros.
 * Macro example:
   `#define charout(A) putc(A)`
   This replaces `charout('H')` with `putc('H')` at compile time, allowing for reusable code snippets.
+
+# Header files vs Libraries
+
+* In C programming, header files and libraries serve distinct purposes in the build process. Header files are used during the compilation phase, while libraries are used during the linking phase. 
+
+## Header files
+
+* Header files typically contain function prototypes, macro definitions, constants, and other pre-processor directives. These files are written in C and reside in directories like /usr/include on Unix systems. They tell the compiler what functions are available, their argument types, and their return types to perform type checking.
+
+* Typically found in /usr/include or /usr/local/include on Unix systems. On Windows, the location is relative to the compiler’s installation directory.
+
+## Libraries
+
+* Libraries, on the other hand, are collections of pre-compiled object code that provide the actual implementation of functions declared in header files. 
+
+* Some libraries, like the math library (libm), must be linked manually. When using functions such as sqrt or sin, you must include the header file math.h and also link the math library using the -lm flag (specific to math library) in the compiler command. If you omit the header, the compiler issues a warning. If you forget to link the library, the linker will produce an error due to unresolved references.
+
+* Typically found in /usr/lib on Unix systems. On Windows, the location is relative to the compiler’s installation directory.
+
+## Man pages
+
+* Use the man command followed by a function name to find which header file and library is needed for that specific function and how to link the library.
