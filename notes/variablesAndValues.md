@@ -304,3 +304,60 @@ man 3 printf
 ```
 
 This will display detailed information about all format specifiers, flags, width and precision options, and behavior across data types.
+
+# More about the Null terminator
+
+* The **null terminator** is a special character in C, written as `'\0'`, that marks the **end of a string**.
+
+
+### What It Is
+
+* It's a **single byte** with the value `0`.
+* It is automatically **appended at the end** of every string literal in C.
+
+### Why It's Important
+
+C does **not** store the length of strings explicitly.
+Instead, C relies on the **null terminator** to know where the string ends.
+
+So when you write:
+
+```c
+char name[32];
+```
+
+You're saying:
+
+> “Reserve space for **31 visible characters** and **1 extra byte** for the null terminator.”
+
+### Example
+
+```c
+char name[] = "Hassan";
+```
+
+Memory layout:
+
+| Index | Value  |
+| ----- | ------ |
+| 0     | 'H'    |
+| 1     | 'a'    |
+| 2     | 's'    |
+| 3     | 's'    |
+| 4     | 'a'    |
+| 5     | 'n'    |
+| 6     | `'\0'` |
+
+So, `"Hassan"` takes **7 bytes** — 6 letters + 1 null terminator.
+
+### Why You Need to Be Careful
+
+If you write:
+
+```c
+char word[6] = "Hassan";  // Error or undefined behavior!
+```
+
+You’re trying to fit 7 bytes into 6 — that overflows the array and breaks the string.
+
+Always allocate **at least one extra byte** for the null terminator when creating strings manually.
