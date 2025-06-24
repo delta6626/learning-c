@@ -117,3 +117,47 @@ machine-understandable form.
 ## Step 3: Test Run
 
 * Just run the damn thing!
+
+# C Pre-Processor Directives
+
+* The C pre-processor is a tool that prepares a source code file before it is compiled. It handles special instructions called pre-processor directives. These are not part of the C language itself but are processed   before actual compilation. They allow tasks such as file inclusion, code substitution, and macro definition.
+
+## Key Features
+
+Pre-processor directives:
+
+* Begin with a hash (`#`) symbol at the start of a line.
+* Are followed by the directive name, a space, and any arguments.
+* Do **not** end with a semicolon.
+* Are usually placed at the beginning of the source file but can appear anywhere.
+* Can be disabled by enclosing them in comments.
+
+## Common Directives
+
+### `#include`
+
+This directive inserts the contents of another file into the source code at the point where it appears.
+
+* Syntax:
+
+  * `#include <filename>`: Searches for the file in standard system directories.
+  * `#include "filename"`: Searches for the file relative to the current source file's directory.
+
+On Linux, standard header files are located in `/usr/include` or `/usr/local/include`. On Windows, they are found in directories relative to the compiler's installation.
+
+### `#define`
+
+Used to define symbolic constants and macros.
+
+* Example: `#define COUNT 10`
+  Every instance of `COUNT` in the code is replaced by `10` during preprocessing. This improves maintainability since changing the value in one place updates all usages.
+
+* Constants are usually written in all uppercase letters for clarity.
+
+* String literal example:
+  `#define GREETING "Howdy do"`
+  This expands to the string including the quotes and can be used in functions like `puts(GREETING)`.
+
+* Macro example:
+  `#define charout(A) putc(A)`
+  This replaces `charout('H')` with `putc('H')` at compile time, allowing for reusable code snippets.
