@@ -20,6 +20,7 @@ Here's the same content, reformatted without horizontal rules:
 ## Comments in C
 
 * Comments are enclosed between `/*` and `*/` (multiline) or `//` (single line)
+* C language uses two styles of comments: traditional C comments (/* ... */) and C++ style comments (//).
 
 ## Preprocessor Directives
 
