@@ -92,20 +92,6 @@ Syntax:
 printf("Value: %d", i);
 ```
 
-### Common Format Specifiers
-
-| Format Specifier | Data Type           | Description                              |
-| ---------------- | ------------------- | ---------------------------------------- |
-| `%c`             | `char`              | Character input/output                   |
-| `%d` or `%i`     | `int`               | Signed integer                           |
-| `%u`             | `unsigned int`      | Unsigned integer                         |
-| `%hd`            | `short`             | Short integer                            |
-| `%ld`            | `long`              | Long integer                             |
-| `%lld`           | `long long`         | Long long integer                        |
-| `%f`             | `float` or `double` | Floating-point number (printf)           |
-| `%lf`            | `double`            | Floating-point (scanf)                   |
-| `%s`             | `char[]`            | String (null-terminated character array) |
-
 Note: For `scanf`, you must pass the **address** of the variable using the `&` operator. `printf` only needs the value.
 
 ## 6. The `void` Data Type
@@ -168,3 +154,153 @@ After reading the string, `printf` can be used to display it:
 ```c
 printf("%s", buffer);
 ```
+
+# Declaring variables
+
+* Variable Declaration: Variables must be declared before use, specifying a data type and a name.
+
+* Naming Conventions: Variable names should start with a letter, can include numbers and underscores, and should be descriptive and concise.
+    
+* Initialization: Variables can be initialized when declared or later in the code, but they must be assigned a value before use to avoid errors and potential security risks.
+
+```c
+// 1. Basic declaration without initialization
+int a;
+char ch;
+float temperature;
+
+// 2. Declaration with initialization
+int x = 10;
+char grade = 'A';
+float pi = 3.14;
+
+// 3. Multiple declarations in a single line
+int m, n, o = 5;
+float alpha = 1.2, beta;
+
+// 4. Using type modifiers
+unsigned int count = 100;
+short int si = -32768;
+long int li = 1000000;
+unsigned char uc = 255;
+
+// 5. Global variable (declared outside any function)
+int globalCounter = 0;
+
+// 6. Constant variable
+const float gravity = 9.8;
+```
+
+* More ways exist. Will be discussed later.
+
+# C `printf` Function 
+
+## Purpose of `printf`
+
+* The `printf` function is used to produce **formatted output** in C.
+* It originated in the C language and is now used in many others.
+* Its power comes from the ability to control exactly how data is displayed.
+
+## Syntax
+
+```c
+printf("format string", arg1, arg2, ...);
+```
+
+* The **first argument** is always a **format string**.
+* This format string may include **plain text** and **conversion specifications** (placeholders).
+* Each **placeholder** corresponds to a specific argument following the format string.
+* If the **number of placeholders** and **arguments do not match**, or if **data types are mismatched**, the compiler generates a warning.
+
+## Example
+
+```c
+int a = 42;
+printf("Value is %d\n", a);
+```
+
+* `%d` is a placeholder for an `int`.
+* `\n` adds a new line. `printf` does **not** automatically add a new line like `puts()`.
+
+## Common Conversion Specifiers
+
+Each specifier starts with `%` and ends with a **conversion character**. Between these two, optional flags and width/precision controls may appear.
+
+| Specifier   | Data Type         | Description                                       |
+| ----------- | ----------------- | ------------------------------------------------- |
+| `%d` / `%i` | `int`             | Signed decimal integer                            |
+| `%u`        | `unsigned int`    | Unsigned decimal integer                          |
+| `%f`        | `float`, `double` | Floating-point decimal format                     |
+| `%e` / `%E` | `float`, `double` | Scientific notation (e.g., `1.23e+02`)            |
+| `%g` / `%G` | `float`, `double` | Automatically chooses `%f` or `%e` based on value |
+| `%c`        | `char`            | Single character                                  |
+| `%s`        | `char[]`          | String (null-terminated character array)          |
+| `%x` / `%X` | `int`             | Hexadecimal integer (lowercase or uppercase)      |
+| `%o`        | `int`             | Octal (base-8) integer                            |
+| `%p`        | pointer           | Memory address (in hexadecimal format)            |
+| `%%`        | -                 | Prints a literal `%` character                    |
+
+| Format Specifier | Data Type           | Description                              |
+| ---------------- | ------------------- | ---------------------------------------- |
+| `%c`             | `char`              | Character input/output                   |
+| `%d` or `%i`     | `int`               | Signed integer                           |
+| `%u`             | `unsigned int`      | Unsigned integer                         |
+| `%hd`            | `short`             | Short integer                            |
+| `%ld`            | `long`              | Long integer                             |
+| `%lld`           | `long long`         | Long long integer                        |
+| `%f`             | `float` or `double` | Floating-point number (printf)           |
+| `%lf`            | `double`            | Floating-point (scanf)                   |
+| `%s`             | `char[]`            | String (null-terminated character array) |
+
+## Format Modifiers
+
+Format specifiers can be **customized** using modifiers for precision, width, and alignment.
+
+### Width
+
+Sets the minimum number of characters to print.
+
+```c
+printf("%5d", 42); // outputs: '   42'
+```
+
+### Precision
+
+For floating-point values, precision controls the number of digits after the decimal point.
+
+```c
+printf("%.2f", 3.14159); // outputs: 3.14
+printf("%.4f", 3.14159); // outputs: 3.1416
+```
+
+### Example with multiple specifiers
+
+```c
+char ch = 'A';
+unsigned int x = 150;
+float pi = 3.14159;
+
+printf("Char: %c, Unsigned: %u, Pi: %.2f\n", ch, x, pi);
+```
+
+Output:
+
+```
+Char: A, Unsigned: 150, Pi: 3.14
+```
+
+## Editor Highlighting and Debugging
+
+* Many modern editors highlight the format specifiers inside strings, which helps in visually verifying their placement and ensuring they match the arguments.
+* If the number of placeholders and arguments does not match, the compiler typically emits a warning.
+* Type mismatches can lead to undefined behavior or incorrect output.
+
+## Documentation
+
+* For a complete list of formatting options and advanced usage, consult the **manual page for section 3 (library functions)**:
+
+```bash
+man 3 printf
+```
+
+This will display detailed information about all format specifiers, flags, width and precision options, and behavior across data types.
