@@ -361,3 +361,44 @@ char word[6] = "Hassan";  // Error or undefined behavior!
 You’re trying to fit 7 bytes into 6 — that overflows the array and breaks the string.
 
 Always allocate **at least one extra byte** for the null terminator when creating strings manually.
+
+# Constants in C
+
+* Constants vs. Variables: Constants are values that never change, unlike variables. They can be declared using the const keyword or the define pre-processor directive.
+    
+* Literal Constants: These are values directly written in the code, such as numbers or characters.
+    
+* Constant Declarations: Using the const keyword, you can declare a constant that must be initialized at the time of declaration and cannot be changed later. Example:
+
+  ```c
+  #include <stdio.h>
+
+  int main(){
+
+    const int x = 10; // Cannot be reassigned/changed from here on.
+
+    printf("Value of x is %d\n", x);
+    printf("Value of x - 1 is %d\n", x - 1);
+
+    return 0;
+  }
+  ```
+    
+* Pre-processor Directives: The define directive can be used to create constants that are accessible across multiple functions in a source code file. The preprocessor then replaces all the occurence of the constant with its real value.
+
+  ```c
+
+  #define MAX 20;
+
+  #include <stdio.h>
+
+  int main(){
+
+    const int x = 10; // Cannot be reassigned/changed from here on.
+
+    printf("Value of MAX is %d\n", MAX); // Changed to 20 before compilation by the preprocessor.
+    printf("Value of MAX - 1 is %d\n", MAX - 1);
+
+    return 0;
+  }
+  ```
