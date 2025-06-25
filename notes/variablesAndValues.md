@@ -403,3 +403,153 @@ Always allocate **at least one extra byte** for the null terminator when creatin
     return 0;
   }
   ```
+
+Certainly — here's the same content formatted as **Markdown notes** with **no horizontal rules** and no emojis:
+
+# C Storage Classes Overview
+
+A **storage class** in C defines a variable's **scope** and **lifetime** — that is, where it can be accessed and how long it persists.
+
+## Types of Storage Classes
+
+### 1. `auto` (Automatic)
+
+* The **default** storage class for local variables.
+* Automatically applies to variables declared inside functions, even without using the `auto` keyword.
+* Variables exist **only while the function runs**.
+* The value is **discarded** when the function ends.
+* Example:
+
+  ```c
+  auto int a = 5;  // same as just `int a = 5;`
+  ```
+
+### 2. `static`
+
+* Also local to the function in which it's defined.
+* Variable is not discarded after the function ends.
+* Variable persists for the **entire lifetime of the program**.
+* Example:
+
+  ```c
+  static int count = 0;
+  ```
+
+### 3. `extern` (External / Global)
+
+* Declares a variable that is defined **outside any function**.
+* Accessible to **all functions** in the file (and even other files with proper declaration).
+* Used for **global variables**, but should be avoided unless absolutely necessary.
+* If variables `A` and `B` are defined at the top of a file, outside of any function:
+
+  ```c
+  int A = 5;
+  int B = 10;
+  ```
+
+You can use them inside functions by declaring them with `extern`:
+
+  ```c
+  void sum() {
+      extern int A, B;
+      int result = A + B;
+  }
+  ```
+
+* This tells the compiler that the variables exist globally. While this works, it's generally better to limit global state for better code structure and maintainability.
+
+
+### Important note
+
+* In a function, variables `A` and `B` declared using `auto` are local and discarded after the function finishes.
+* If `static` is used instead, the variables **keep their values** between calls.
+
+A function like this:
+
+```c
+char* myname() {
+    char me[] = "John";  // auto by default
+    return me;           // returns pointer to a local variable
+}
+```
+
+is problematic. The `me` array is local to the function and its memory is discarded after the function returns. Attempting to use the returned pointer in `main()` or elsewhere can lead to undefined behavior.
+If the pointer points to a local (automatic) variable inside the function, you cannot return it. Because local variables live on the stack and are destroyed when the function returns, the pointer will become a dangling pointer (points to invalid memory).
+
+To fix this, use `static`:
+
+```c
+char* myname() {
+    static char me[] = "John";
+    return me;
+}
+```
+
+Now the string is retained in memory and safely returned.
+
+### Best Practices
+
+* Avoid excessive use of `extern` or global variables.
+* Prefer local variables and pass data through function parameters when possible.
+* Use `static` only when a variable truly needs to retain its value between calls.
+* Avoid using `auto` explicitly, as it's the default and mostly unnecessary in modern C code.
+
+# Defining custom data types with typedef
+
+* typedef: The typedef keyword is used to create new data types in C. 
+* It allows for defining a new name for existing data types, making code more readable and maintainable.
+* Generally, a typedef is defined in a header file or at the top of a source file.
+
+## Example with Custom Typedef
+
+* You can create your own typedefs:
+
+```c
+typedef float radius;
+radius a;
+```
+
+* This lets you use radius as an alias for float, improving code readability.
+* printf can output the value of radius variables normally.
+* Any non-standard data type you encounter, like time_t, was likely created using typedef.
+* To understand these types fully, check documentation or header files.
+* Documentation usually also indicates the correct printf format specifier to use with these types.
+
+## Portability 
+
+* Typedefs like time_t are defined by the system in standard headers (e.g., <time.h>).
+* They abstract the underlying data type (e.g., long, int) to ensure code portability across systems.
+* You don’t choose the exact type for system typedefs; the system/compiler does.
+* You only define your own typedefs when creating custom types in your code.
+* Using typedefs lets your code work consistently on different platforms without changes.
+
+# Specifying characters and strings
+
+### Character Literals in C
+
+* Use **single quotes** for single characters: `'A'`, `'3'`, `'.'`
+* Some special characters like **newline** or **tab** require **escape sequences**:
+
+  * Newline: `'\n'`
+  * Tab: `'\t'`
+  * Single quote: `'\''`
+  * Double quote (inside strings): `\"`
+  * Hex value: `'\x41'` (which is `'A'`)
+  * Null character / terminator: `\0`
+  
+* Escape sequences represent a **single character**, even if multiple symbols are used.
+
+### Character Arrays and Strings
+
+* C has **no built-in string type** — strings are just **character arrays**.
+* Strings are created using **double quotes**: `"Hello"`
+* All string literals are automatically **null-terminated** (`'\0'` at the end).
+* You must handle the **null character** when working with strings manually.
+* A character array can be initialized with a string literal:
+
+  ```c
+  char greeting[] = "Hello\n";
+  ```
+
+  * Here, the compiler sets array size automatically.
+  * `\n` is a newline; `\0` is added automatically at the end.
