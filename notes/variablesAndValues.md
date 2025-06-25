@@ -10,7 +10,7 @@ C provides four fundamental built-in data types that describe what kind of infor
 
 ### `char`
 
-Stores a single character or a single byte of data. Used for character-based input and output. It typically occupies 1 byte of memory. Characters are stored as ASCII values, so `'A'` is actually stored as the integer 65. The `char` type can be signed or unsigned, depending on the compiler.
+Stores a single character or a single byte of data. Used for character-based input and output. It typically occupies 1 byte of memory. Characters are stored as ASCII values, so `'A'` is actually stored as the integer 65. The `char` type can be signed or unsigned, depending on the compiler. Use single quotes when assigning values to a `char` variable.
 
 ### `int`
 
@@ -123,11 +123,12 @@ The `void` type is not used to store values; it serves only as a type indicator 
 
 ## 7. Strings in C
 
-C does not have a built-in `string` type like many other programming languages. Instead, strings are represented as arrays of `char` terminated by a null character (`\0`).
+C does not have a built-in `string` type like many other programming languages. Instead, strings are represented as arrays of `char` terminated by a null character (`\0`). Use double quotes for strings.
 
 To store a string, a `char` array is declared:
 
 ```c
+char name[] = "John";
 char buffer[32];
 ```
 
