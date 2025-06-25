@@ -536,7 +536,7 @@ radius a;
   * Double quote (inside strings): `\"`
   * Hex value: `'\x41'` (which is `'A'`)
   * Null character / terminator: `\0`
-  
+
 * Escape sequences represent a **single character**, even if multiple symbols are used.
 
 ### Character Arrays and Strings
@@ -553,3 +553,131 @@ radius a;
 
   * Here, the compiler sets array size automatically.
   * `\n` is a newline; `\0` is added automatically at the end.
+
+# Numeric Literals and Data Types in C
+
+### Integer and Real Number Types
+
+* C has two main categories of numeric types:
+
+  * `int`: for **integers** (whole numbers)
+  * `float` and `double`: for **real numbers** (decimals, large/small values)
+
+```c
+int age = 30;
+float pi = 3.14f;
+double gravity = 9.80665;
+```
+
+### Integer Literals
+
+* Written **without commas**: `100000000` (not `100,000,000`)
+* Commas are invalid and lead to incorrect input or parsing
+
+```c
+int population = 100000000;    // valid
+int invalid = 100,000,000;     // invalid — commas not allowed
+```
+
+### Real Number Literals
+
+* Always include a **decimal point**:
+
+  * `0.25`, `1.0`, or `.5`
+* Adding `.0` or `0.` helps the compiler treat the value as a float/double
+* Example:
+
+```c
+float rate = 0.25;
+double one_billion = 1000000000.0;
+float half = .5;
+```
+
+### Input Handling
+
+* Use `fgets()` to read a number as a string
+* Convert the string to a number using `strtol()` for integers
+* `strtol()` does **not support commas**, so users should avoid typing them
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    char buffer[20];
+    printf("Enter a number: ");
+    fgets(buffer, 20, stdin);
+    /*
+    strtol is used to parse number from strings. 
+    NULL is used to indicate that we're not interested in knowing when the parsing stopped.
+    10 is the base (decimal)
+    */
+    long value = strtol(buffer, NULL, 10);
+    printf("You entered: %ld\n", value);
+    return 0;
+}
+```
+
+### Scientific Notation (E-notation)
+
+* Use `E` or `e` for exponential form:
+
+  * `2.5e6` means 2.5 × 10⁶
+  * `2.5e-6` means 2.5 × 10⁻⁶
+* Floating-point rounding may affect very small numbers
+
+```c
+#include <stdio.h>
+
+int main() {
+    float big = 2.5e6;
+    float small = 2.5e-6;
+    printf("Big: %e\n", big);
+    printf("Small: %e\n", small);
+    return 0;
+}
+```
+
+### Hexadecimal and Octal
+
+* **Hexadecimal (base 16)**:
+
+  * Prefix: `0x`
+  * Example: `0x1` to `0x10` (decimal 1 to 16)
+
+* **Octal (base 8)**:
+
+  * Prefix: leading `0`
+  * Example: `01` to `010` (decimal 1 to 8)
+
+```c
+#include <stdio.h>
+
+int main() {
+    for (int x = 0x1; x <= 0x10; x++) {
+        printf("Hex: 0x%X = %d\n", x, x);
+    }
+
+    for (int o = 01; o <= 010; o++) {
+        printf("Oct: 0%o = %d\n", o, o);
+    }
+
+    return 0;
+}
+```
+
+### Type Suffixes
+
+* Suffixes clarify or enforce data type of literals:
+
+  * `L` or `l`: long
+  * `U` or `u`: unsigned
+  * `F` or `f`: float (decimal point still required)
+  * Combinations like `UL` or `lu` are valid
+
+```c
+long bigNumber = 1000000L;
+unsigned int count = 500U;
+float taxRate = 7.5F;
+unsigned long long huge = 18446744073709551615ULL;
+```
