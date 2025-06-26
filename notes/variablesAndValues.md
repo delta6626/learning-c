@@ -681,3 +681,35 @@ unsigned int count = 500U;
 float taxRate = 7.5F;
 unsigned long long huge = 18446744073709551615ULL;
 ```
+
+# Typecasting
+
+* Typecasting allows you to temporarily change the data type of a variable for a specific operation.
+* It helps in getting the correct result when performing operations like division, by treating integers as floating-point numbers.
+* Typecasting does not change the variable's underlying data type; it only affects the specific expression where the cast is used.
+* It can prevent potential errors or ensure the program generates the desired result, especially in cases where the proper data type is not used initially.
+* It is done by specifying the type in brackets before an expression. Example: (float) or (int).
+
+```c
+#include <stdio.h>
+
+int main(){
+
+  int a = 100;
+  int b = 7;
+
+  /*
+  Will not give the expected output because the format specifier for the result is set to `d` (decimal integer)
+  */
+  printf("The answer of %d/%d is %d\n", a, b, a/b);
+  
+  /*
+  Will not give the expected output because the the format specifier is set to `f` (float), but the answer a/b is an integer
+  */
+  printf("The answer of %d/%d is %f\n", a, b, a/b);
+
+  printf("The answer of %d/%d is %f\n", a, b, (float) a/b); // Typecast the answer a/b to a float. Correct output.
+
+  return 0;
+}
+```
