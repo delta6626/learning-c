@@ -3,19 +3,19 @@
 
 int main()
 {
-	//declare constant ratio equal to 3/4
-	//declare char a
-	//declare integer b
-	//declare float c
+	const float ratio = 3.0 / 4.0;
+	char a;
+	int b;
+	float c;
 
-	//assign char
-	//assign integer
-	//assign float
+	a = 'a';
+	b = 5;
+	c = 5.5;
 
-	//output char value, e.g., "the value of variable a is '?'"
-	//output integer value, e.g., "the value of variable b is ??"
-	//output float value, e.g., "the value of variable c is ???.??"
-	//output value of ratio, e.g., "the value of constant ratio is ???.??"
+	printf("The value of variable a is %c\n", a);
+	printf("The value of variable b is %d\n", b);
+	printf("The value of variable c is %.2f\n", c);
+	printf("The value of constant ratio is %.2f\n", ratio);
 
 	return 0;
 }
