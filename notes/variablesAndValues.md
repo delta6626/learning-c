@@ -713,3 +713,91 @@ int main(){
   return 0;
 }
 ```
+
+# Bitwise Shift Operators in C and C++ with Code Examples
+
+Bitwise operators let you manipulate data at the bit level. This is a very low-level, fast, and efficient form of computation.
+
+The two main shift operators are:
+
+* `<<` Left Shift
+* `>>` Right Shift
+
+## Example 1: Left Shift — Doubling a Value
+
+**Description**: Shifting bits to the left by 1 position is equivalent to multiplying the value by 2.
+
+```c
+#include <stdio.h>
+
+int main() {
+    int A = 1;
+    int i = 0;
+    while (i < 16) {
+        printf("A = %d\n", A);
+        A = A << 1;  // shift left by 1, same as A *= 2
+        i++;
+    }
+    return 0;
+}
+```
+
+**Explanation**:
+
+* Starts with `A = 1`
+* Each loop iteration shifts `A` left by 1 bit (multiplies by 2)
+* After 16 iterations, `A` becomes a very large number
+
+## Modified Example: Left Shift by 2 Positions — Faster Growth
+
+**Description**: Shifting by 2 bits at once multiplies the value by 4.
+
+```c
+#include <stdio.h>
+
+int main() {
+    int A = 1;
+    while (A <= 33000) {
+        printf("A = %d\n", A);
+        A = A << 2;  // shift left by 2, same as A *= 4
+    }
+    return 0;
+}
+```
+
+**Explanation**:
+
+* Much faster growth than shifting by 1
+* Demonstrates exponential growth with bit shifts
+
+## Example 2: Right Shift — Halving a Value
+
+**Description**: Shifting bits to the right by 1 position is like dividing by 2 (integer division).
+
+```c
+#include <stdio.h>
+
+int main() {
+    int A = 15625;
+    while (A > 0) {
+        printf("A = %d\n", A);
+        A = A >> 1;  // shift right by 1, same as A /= 2
+    }
+    return 0;
+}
+```
+
+**Explanation**:
+
+* Starts from 15,625
+* Each iteration cuts the value in half
+* Note: decimal parts are dropped (e.g., 15 / 2 = 7)
+
+## Assignment Operator Equivalents
+
+You can use shorthand versions of shift operations with assignment:
+
+```c
+A <<= 1;  // same as A = A << 1
+A >>= 1;  // same as A = A >> 1
+```
