@@ -801,3 +801,103 @@ You can use shorthand versions of shift operations with assignment:
 A <<= 1;  // same as A = A << 1
 A >>= 1;  // same as A = A >> 1
 ```
+# Unary Operators in C – Explained with Examples
+
+Unary operators act on **a single operand** (variable or value).
+The term *"unary"* comes from Latin *unes*, meaning **one**.
+
+## List of Common Unary Operators in C
+
+1. `+` Unary plus
+2. `-` Unary minus (negation)
+3. `!` Logical NOT
+4. `sizeof` Size-of operator
+
+## 1. `sizeof` Operator
+
+* Returns the number of **bytes** a variable or data type takes in memory.
+* The return type is `size_t` (defined in `stdio.h` or `stddef.h`).
+* Very useful in **memory allocation**, pointer arithmetic, and type introspection.
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    char c;
+    int i;
+    float f;
+    double d;
+    char str[] = "Hello";
+    int nums[10];
+
+    printf("char: %zu bytes\n", sizeof(c));
+    printf("int: %zu bytes\n", sizeof(i));
+    printf("float: %zu bytes\n", sizeof(f));
+    printf("double: %zu bytes\n", sizeof(d));
+    printf("char array: %zu bytes\n", sizeof(str));
+    printf("int array (10 elements): %zu bytes\n", sizeof(nums));
+
+    return 0;
+}
+```
+
+> Note: `%zu` is the correct format specifier for `size_t`. Output values can vary across systems.
+
+## 2. `!` Logical NOT Operator
+
+* Reverses a boolean expression.
+* Returns `1` if the expression is false (0), and `0` if it’s true (non-zero).
+
+**Important Note:** Always use **parentheses** when applying `!` to an expression — `!(a < 10)` — or it will only affect the variable directly after it.
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int a = 5;
+
+    if (a < 10) {
+        printf("*\n");  // Prints *
+    }
+
+    if (!(a < 10)) {
+        printf("!\n");  // This will not print since a < 10 is true, but negated
+    }
+
+    return 0;
+}
+```
+
+## 3. `+` Unary Plus and `-` Unary Minus
+
+* `+a` means "positive a" (does nothing really).
+* `-a` gives the **negative** of the value.
+* Often used to flip signs or reinforce clarity in code.
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int a = 5;
+    int b = -3;
+
+    printf("+a = %d\n", +a);   // Just a = 5
+    printf("-a = %d\n", -a);   // -5
+    printf("+b = %d\n", +b);   // -3
+    printf("-b = %d\n", -b);   // 3
+
+    return 0;
+}
+```
+
+> Although `+a` looks redundant, it’s still valid — and sometimes helps with clarity when paired with `-a`.
+
+## Operator Precedence Note
+
+Unary operators have **higher precedence** than arithmetic or logical operators, which is why `-a + b` works as expected. But be careful with parentheses when mixing with logical operators like `!`.
