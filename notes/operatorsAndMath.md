@@ -19,3 +19,33 @@ int main() {
     return 0;
 }
 ```
+
+# Truthy and Falsy Values in C
+
+* In C, the integer `0` is considered *false*, and any non-zero value is considered *true* when used in a conditional expression like `if`, `while`, or `for`.
+* This applies to all scalar types: `int`, `char`, `float`, pointers, etc.
+* Using an assignment in a conditional expression (e.g., `if (x = 5)`) assigns the value and then evaluates the result. If the assigned value is zero, the condition is false; otherwise, it's true.
+
+```c
+#include <stdio.h>
+
+int main() {
+    int x = 0;
+    if(x){
+        puts("Hey");
+    }
+    else{
+        puts("Hello"); // output: Hello
+    }
+
+    const char a = 'A';
+    if(a){
+        puts("Hi"); // output: Hi
+    }
+    else{
+        puts("Hola"); 
+    }
+
+    return 0;
+}
+```
