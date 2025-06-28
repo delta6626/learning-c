@@ -34,6 +34,7 @@ int main()
 			done = 1;
 			break;
 		case 'H':
+		case 'h':
 		case '?':
 			puts("Valid commands: R, L, B, Q, H and ?");
 			break;
@@ -41,6 +42,8 @@ int main()
 			puts("I don't know that command");
 			break;
 		}
+		while (getchar() != '\n')
+			;
 	}
 
 	return 0;
