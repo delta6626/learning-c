@@ -27,6 +27,7 @@
     case 'B':
     case 'b':
       puts("The second letter!");
+      break;
   }
   ```
 
