@@ -84,3 +84,32 @@ for (;;) {
     printf("Running...\n");
 }
 ```
+
+# goto statement
+
+**Purpose**
+The `goto` statement is used to transfer control to a labeled statement(s) within the same function. It can be used to jump forward or backward in the code.
+
+**Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    int i = 0;
+
+    start:
+        if (i < 5) {
+            printf("%d\n", i);
+            i++;
+            goto start;
+        }
+
+    return 0;
+}
+```
+
+**Caution**
+
+* Overusing `goto` can lead to unstructured and hard-to-read code ("spaghetti code")
+* Prefer structured loops (`for`, `while`) and conditionals when possible
