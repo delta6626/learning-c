@@ -17,4 +17,17 @@
 
 * The break keyword is used to exit the switch-case block, preventing fall-through to subsequent cases. If break is omitted, execution continues to the next case.
 
+  ```c
+  char x = 'A';
+  switch(x){
+    case 'A':
+    case 'a':
+      puts("First letter of the alphabet");
+      break;
+    case 'B':
+    case 'b':
+      puts("The second letter!");
+  }
+  ```
+
 * The default case handles any values that do not match any of the specified cases, ensuring all possible inputs are accounted for
