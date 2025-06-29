@@ -112,3 +112,64 @@
 * Single Return Value: Functions in C can only return a single value. To return multiple values, you can use pointers or structures.
     
 * Void Functions: Even functions that do not return a value (void functions) can use the return keyword to exit early.
+
+Got it. Here's the cleaned-up version of your notes, following your formatting preference.
+
+---
+
+# Command-Line Arguments in C
+
+* Programs are launched using command-line instructions, even on graphical operating systems. In C, command-line arguments are accessed through the main function.
+
+* Main function with arguments
+
+```c
+int main(int argc, char *argv[])
+```
+
+Parameters
+argc
+
+* Argument count
+* Represents the number of items passed via the command line (including the program name itself)
+
+argv
+
+* Argument vector
+* An array of strings (character pointers)
+* Each argument is a separate string
+* argv\[0] is always the program's name
+* argv\[1] to argv\[argc - 1] are the actual arguments
+
+Example
+Command:
+
+```
+./my-c-program file.txt "hello world" 123
+```
+
+Values:
+
+```
+argc == 4
+argv[0] -> "./program"
+argv[1] -> "file.txt"
+argv[2] -> "hello world"
+argv[3] -> "123"
+```
+
+Note
+Arguments with spaces must be enclosed in quotes. Otherwise, each word is treated as a separate argument.
+
+Usage
+You can use argc to check if any arguments were passed:
+
+```c
+if (argc > 1) {
+    // process arguments
+}
+```
+
+You can use argv strings in expressions, comparisons, or for file operations. They behave like regular string pointers.
+
+If you don’t need arguments, you can leave the parentheses in main empty. Do not use `void` inside the parentheses in that case.
