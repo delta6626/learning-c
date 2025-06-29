@@ -104,3 +104,11 @@
 * Use functions to reduce redundancy, isolate logic, and clarify purpose.
 * Always introduce functions to the compiler before their use via prototypes or by defining them earlier.
 * Even short or one-line repetitive actions can benefit from being placed into functions.
+
+# return statement
+
+* Return Keyword: Functions use the return keyword to send a value back to the calling function. The returned value must match the function's data type.
+    
+* Single Return Value: Functions in C can only return a single value. To return multiple values, you can use pointers or structures.
+    
+* Void Functions: Even functions that do not return a value (void functions) can use the return keyword to exit early.
