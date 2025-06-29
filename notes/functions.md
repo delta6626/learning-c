@@ -232,3 +232,49 @@ Then `a = 0` runs **every time**, so the value resets on each call. This defeats
 * Local variables are normally temporary.
 * Use `static` when a local variable needs to keep its value between function calls.
 * Initialize `static` variables as they are declared.
+
+# Recursion in C
+
+A recursive function is a function that calls itself.
+
+It must have a **terminating condition** or it will call itself infinitely, leading to a crash (stack overflow).
+
+Example of a bad recursive function:
+
+```c
+void recurse() {
+    recurse(); // no stopping point
+}
+```
+
+To fix it, add an exit condition:
+
+```c
+void recurse(int a) {
+    if (a > 10) return;
+    recurse(a + 1);
+}
+```
+
+Recursion has two phases:
+
+* **Winding up**: each recursive call adds a new layer
+* **Winding down**: after the base condition is met, the calls return one by one
+
+Example: Calculating factorial recursively
+
+```c
+int factorial(int f) {
+    if (f <= 1) return 1;
+    return f * factorial(f - 1);
+}
+```
+
+Common uses:
+
+* File system traversal
+* Maze solving
+* Math problems (factorials, Fibonacci, etc.)
+* Backtracking puzzles like the eight queens
+
+Key rule: always ensure the function can exit.
