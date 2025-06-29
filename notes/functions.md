@@ -173,3 +173,62 @@ if (argc > 1) {
 You can use argv strings in expressions, comparisons, or for file operations. They behave like regular string pointers.
 
 If you don’t need arguments, you can leave the parentheses in main empty. Do not use `void` inside the parentheses in that case.
+
+# Static Variables in C Functions
+
+When a function ends, all variables declared inside it are normally discarded. This is because their **storage class** is automatic by default (`auto`), which means they are **created when the function starts** and **destroyed when it ends**.
+
+### Local Variables Are Isolated
+
+* Variables with the same name in different functions are separate.
+* Changing a variable in one function does not affect a variable of the same name in another function.
+
+### Example Problem
+
+* A function declares a local variable `a = 0`, then increases it by 16.
+* The function is called multiple times.
+* Expectation: the value keeps increasing with each call.
+* Reality: the value resets to 0 each time because the variable is re-declared and re-initialized on every call.
+
+### Solution: Use `static`
+
+* Declaring the variable as `static` inside the function allows it to **retain its value between calls**.
+* Static variables are initialized only once, when the function is first called.
+* The variable is not re-created or re-initialized on later calls.
+
+```c
+int funct() {
+    static int a = 0;  // Initialized only once
+    a += 16;
+    printf("%d\n", a);
+    return a;
+}
+```
+
+* When the function runs multiple times, `a` continues increasing: 16, 32, 48, etc.
+
+### Important Detail
+
+* If you write:
+
+```c
+static int a;  // declared without initialization
+a = 0;         // assigned in the function body
+```
+
+Then `a = 0` runs **every time**, so the value resets on each call. This defeats the purpose of `static`.
+
+* Best practice: **initialize static variables at the point of declaration**, not later.
+
+### Use Cases for `static` in Functions
+
+* Counters
+* Buffers
+* Accumulators
+* State that must persist across function calls
+
+### Summary
+
+* Local variables are normally temporary.
+* Use `static` when a local variable needs to keep its value between function calls.
+* Initialize `static` variables as they are declared.
