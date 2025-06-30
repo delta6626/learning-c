@@ -12,7 +12,7 @@ struct Person
 {
 	struct Birthday birthday;
 	float height;
-	char name[];
+	char name[30];
 };
 
 int main()
