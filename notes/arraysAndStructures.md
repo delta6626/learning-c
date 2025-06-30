@@ -261,3 +261,30 @@ int main() {
     return 0;
 }
 ```
+
+# Array of structures
+
+- You can create an array where each element is a structure with its own members.
+
+```c
+struct Person {
+    char name[20];
+    int age;
+};
+
+struct Person listOfPeople[] = {{"James", 20}, {"John", 25}};
+struct Person anotherListOfPeople[2];
+
+strcpy(anotherListOfPeople[0].name, "Sam");
+anotherListOfPeople[0].age = 28;
+strcpy(anotherListOfPeople[1].name, "Doug");
+anotherListOfPeople[1].age = 11;
+```
+
+# Working with structures in functions
+
+* Passing Structure Members: Structure members can be passed to functions just like any other variable.
+    
+* Passing Entire Structures: Entire structures can be passed to functions, but the structure must be declared globally (externally) for the function to recognize it.
+    
+* Returning Structures: Functions can return structures, allowing multiple values to be returned by setting them in a structure.
