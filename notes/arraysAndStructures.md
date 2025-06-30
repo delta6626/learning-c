@@ -83,3 +83,104 @@ A programmer can simulate a multidimensional array using a single-dimensional ar
   }
 
   ```
+
+# Structures
+
+A **structure** is a user-defined data type that allows grouping variables of different types under one name. It's useful when modeling a complex entity such as a point, pixel, student, or employee, where different kinds of data describe a single unit.
+
+
+## Declaring a Structure
+
+A structure is defined using the `struct` keyword, followed by a name and a list of members.
+
+```c
+struct Pixel {
+    int horz;
+    int vert;
+    char color;
+};
+```
+
+This defines a structure named `Pixel` with two integers and one character as members. Each member is declared like a normal variable, and the entire structure ends with a semicolon.
+
+## Declaring Structure Variables
+
+You can declare a variable of this structure type after the definition:
+
+```c
+struct Pixel center;
+```
+
+Alternatively, you can define the structure and declare one or more variables in the same statement:
+
+```c
+struct Pixel {
+    int horz;
+    int vert;
+    char color;
+} center, top, bottom;
+```
+
+Now `center`, `top`, and `bottom` are all variables of type `struct Pixel`.
+
+## Accessing Structure Members
+
+Use the **dot operator** to access individual members of a structure:
+
+```c
+center.horz = 10;
+center.vert = 15;
+center.color = 'R';
+```
+
+Members behave like normal variables and can be used in expressions, printed, or passed to functions:
+
+```c
+printf("Center: (%d, %d) Color: %c\n", center.horz, center.vert, center.color);
+```
+
+## Initializing a Structure at Declaration
+
+You can initialize a structure variable directly at the time of declaration using a brace-enclosed list.
+Each value in the initializer must match the order and data type of the structure members:
+
+```c
+struct Pixel bottom = {20, 30, 'B'};
+```
+
+These are equivalent to:
+
+```c
+bottom.horz = 20;
+bottom.vert = 30;
+bottom.color = 'B';
+```
+
+## Full Example
+
+```c
+#include <stdio.h>
+
+struct Pixel {
+    int horz;
+    int vert;
+    char color;
+} center, bottom = {20, 30, 'B'};
+
+int main() {
+    // Assign values to center
+
+    struct Pixel top = {0, 0, 'G'};
+
+    center.horz = 10;
+    center.vert = 15;
+    center.color = 'R';
+
+    // Print all pixels
+    printf("Center: (%d, %d) Color: %c\n", center.horz, center.vert, center.color);
+    printf("Top:    (%d, %d) Color: %c\n", top.horz, top.vert, top.color);
+    printf("Bottom: (%d, %d) Color: %c\n", bottom.horz, bottom.vert, bottom.color);
+
+    return 0;
+}
+```
