@@ -184,3 +184,80 @@ int main() {
     return 0;
 }
 ```
+
+# Nesting Structures
+
+A **nested structure** is a structure that contains another structure as one of its members. This allows modeling more complex data hierarchies where one structure logically "belongs to" another. It's useful when one field of a structure is itself a group of related fields.
+
+## Declaring Nested Structures
+
+```c
+struct Point {
+    int x;
+    int y;
+};
+
+struct Pixel {
+    struct Point position;
+    char color;
+};
+```
+
+Here, `Pixel` contains a `Point` as its member named `position`.
+
+## Initializing Nested Structures
+
+When initializing a nested structure, use nested braces to match the structure layout:
+
+```c
+struct Pixel p = { {10, 20}, 'R' };
+```
+
+or do this instead:
+
+```c
+struct Pixel p;
+p.position.x = 10;
+p.position.y = 20;
+p.color = 'R';
+```
+
+This matches:
+
+* `{10, 20}` for the nested `position` structure
+* `'R'` for the color field
+
+## Full Example
+
+```c
+#include <stdio.h>
+
+// Define the inner structure
+struct Point {
+    int x;
+    int y;
+};
+
+// Define the outer structure with the inner structure as a member
+struct Pixel {
+    struct Point position;
+    char color;
+};
+
+int main() {
+    // Declare and initialize the structure
+    struct Pixel center = {{100, 200}, 'G'};
+    struct Pixel origin;
+    top.position.x = 0;
+    top.position.y = 0;
+    top.color = 'B';
+
+    // Access members
+    printf("Position: (%d, %d)\n", center.position.x, center.position.y);
+    printf("Position: (%d, %d)\n", origin.position.x, origin.position.y);
+    printf("Color: %c\n", center.color);
+    printf("Color: %c\n", origin.color);
+
+    return 0;
+}
+```
