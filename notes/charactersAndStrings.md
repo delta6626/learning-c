@@ -95,3 +95,26 @@ while ((ch = getchar()) != EOF) {
 * Understand that input is buffered and includes characters like Enter (`'\n'`).
 * Use `EOF` to control the end of input loops.
 * `getchar` and `putchar` are simple, low-level tools ideal for learning about character-based input and output in C.
+
+# Testing and converting characters
+
+* Character Testing Functions: Functions like isalpha, isdigit, isupper, and islower are used to test characters for being alphabetic, numeric, uppercase, or lowercase, respectively.
+
+* Character Conversion Functions: Functions such as tolower and toupper convert characters to their lowercase or uppercase counterparts.
+
+* The ctype.h header file contains these functions, and must be included to use them.
+
+```c
+#include <stdio.h>
+#include <ctype.h>
+
+int main(){
+  char text[] = "Hello\n";
+  for(int x = 0; text[x] != "\n"; x++){
+    if(islower(text[x])){
+      printf("The letter at position %d is %c and is a lowercase letter",x,text[x]);
+    }
+  }
+  return 0;
+}
+```
