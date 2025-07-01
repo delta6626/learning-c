@@ -110,7 +110,7 @@ while ((ch = getchar()) != EOF) {
 
 int main(){
   char text[] = "Hello\n";
-  for(int x = 0; text[x] != "\n"; x++){
+  for(int x = 0; text[x] != '\n'; x++){
     if(islower(text[x])){
       printf("The letter at position %d is %c and is a lowercase letter",x,text[x]);
     }
