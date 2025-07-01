@@ -118,3 +118,149 @@ int main(){
   return 0;
 }
 ```
+
+# **Strings in C**
+
+### **1. C Does Not Have a Built-In String Data Type**
+
+* Unlike languages like Python or Java, C does **not have a dedicated string type**.
+* Instead, a **string is represented using an array of characters**.
+* The **last character** in a string **must** be the **null character** (`'\0'`), which acts as a **string terminator**.
+
+### **2. The Null Character (`'\0'`)**
+
+* The null character is **ASCII code 0**.
+* It is represented as `'\0'` in code.
+* It is **not counted** in the visible length of the string but **must be stored**.
+* It's **different from the `NULL` pointer constant**.
+
+```c
+char name[] = "Alice"; // Stored as {'A', 'l', 'i', 'c', 'e', '\0'}
+```
+
+### **3. Declaring Strings**
+
+#### **Using String Literals**
+
+```c
+char name[] = "John";
+```
+
+* The compiler automatically appends the null terminator (`'\0'`).
+* This string is stored as: `{ 'J', 'o', 'h', 'n', '\0' }`
+
+#### **Using Character Arrays Manually**
+
+```c
+char city[] = { 'P', 'a', 'r', 'i', 's', '\0' };
+```
+
+* You must **explicitly add** the `'\0'` character.
+
+#### **Specifying Size for Buffers**
+
+```c
+char buffer[32]; // Can hold 31 characters + 1 null terminator
+```
+
+* Always allocate space for the null character.
+* A string of 31 characters will still need one more space for `'\0'`.
+
+### **4. Common Pitfall: Missing the Null Terminator**
+
+```c
+char wrong[] = { 'H', 'e', 'l', 'l', 'o' }; // No null terminator
+```
+
+* This is just a **character array**, not a string.
+* Using string functions with it can cause **undefined behavior**.
+
+### **5. Buffer Overflows**
+
+* C does **not automatically protect** against writing past the end of arrays.
+* Writing more characters than the array can hold causes a **buffer overflow**.
+* You must ensure enough space and validate inputs.
+
+```c
+char name[5];
+strcpy(name, "Robert"); // Overflow: "Robert" + '\0' is 7 chars
+```
+
+* Use safer functions like `strncpy`.
+
+## **String Handling Functions in `string.h`**
+
+C provides a set of standard string functions declared in the `string.h` header.
+
+### **Common String Functions**
+
+| Function  | Description                          | Example                 |
+| --------- | ------------------------------------ | ----------------------- |
+| `strlen`  | Returns the length of a string       | `strlen("Hello") // 5`  |
+| `strcpy`  | Copies one string to another         | `strcpy(dest, src)`     |
+| `strncpy` | Safer version of `strcpy`            | `strncpy(dest, src, n)` |
+| `strcat`  | Appends one string to another        | `strcat(dest, src)`     |
+| `strcmp`  | Compares two strings                 | `strcmp(str1, str2)`    |
+| `strchr`  | Searches for a character in a string | `strchr(str, 'a')`      |
+| `strstr`  | Searches for a substring             | `strstr(str, "word")`   |
+
+### **Example: Using `strlen` and `strcpy`**
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char source[] = "OpenAI";
+    char destination[10];
+
+    printf("Length: %lu\n", strlen(source)); // Output: 6
+
+    strcpy(destination, source);
+    printf("Copied String: %s\n", destination);
+
+    return 0;
+}
+```
+
+## **String Concatenation (No `+` Operator)**
+
+* C does **not support `+` or `+=` operators** for strings.
+* Use `strcat` or `strncat`.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char greeting[20] = "Hello, ";
+    char name[] = "Bob";
+
+    strcat(greeting, name); // greeting becomes "Hello, Bob"
+    printf("%s\n", greeting);
+
+    return 0;
+}
+```
+
+## **Custom String Functions**
+
+If the standard library lacks a needed function, you can write your own.
+
+### **Example: Custom `strlen` Implementation**
+
+```c
+int custom_strlen(const char *str) {
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    return length;
+}
+```
+
+## **Best Practices**
+
+* Always allocate one extra byte for the null terminator.
+* Avoid buffer overflows by validating input lengths.
+* Remember: In C, managing memory and boundaries is **your responsibility**.
