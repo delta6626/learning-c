@@ -264,3 +264,140 @@ int custom_strlen(const char *str) {
 * Always allocate one extra byte for the null terminator.
 * Avoid buffer overflows by validating input lengths.
 * Remember: In C, managing memory and boundaries is **your responsibility**.
+
+# **Reading Strings from Standard Input in C**
+
+### **1. Using `scanf` to Read a String**
+
+```c
+#include <stdio.h>
+
+int main() {
+    char input[10]; // Room for 9 characters + null terminator
+
+    printf("Enter your name: ");
+    scanf("%s", input); // Reads string from standard input
+
+    printf("You entered: %s\n", input);
+    return 0;
+}
+```
+
+### **Key Points:**
+
+* `%s` tells `scanf` to read a string until a **whitespace character** (space, tab, newline).
+* No `&` is needed with the array name `input` because arrays decay to pointers.
+* Only the first word is read if input includes spaces:
+
+#### **Example:**
+
+Input: `Jim Bob`
+Output: `Jim`
+
+* `scanf` stops at the **first whitespace**.
+
+## **2. Problem: Buffer Overflow with `scanf`**
+
+If the input is **longer than the buffer size**, you get a **buffer overflow**:
+
+```c
+char input[10]; // Max 9 characters + '\0'
+scanf("%s", input); // No safeguard on input size
+```
+
+#### **Example:**
+
+Input: `Bartholomew` (11 characters)
+
+* `input` only holds 10 bytes → **overflow occurs**
+* This is **dangerous** and **insecure**
+
+## **3. Safer Input with `fgets`**
+
+`fgets` is a **safer alternative** to `scanf` for reading strings.
+
+### **Syntax:**
+
+```c
+fgets(buffer, buffer_size, stdin);
+```
+
+* Reads a line of input (including spaces) from `stdin`
+* Stops after reading `buffer_size - 1` characters or when a newline is found
+* Appends a **null terminator `'\0'`**
+* **Includes the newline character** if it fits
+
+### **Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    char input[10]; // Room for 9 chars + null
+
+    printf("Enter your name: ");
+    fgets(input, 10, stdin); // Safer than scanf
+
+    printf("You entered: %s", input); // Might include '\n'
+    return 0;
+}
+```
+
+#### **Input:** `Bartholomew`
+
+#### **Output:** `Barthol` (input truncated to prevent overflow)
+
+## **4. Removing the Newline Character from `fgets` Input**
+
+`fgets` may store the **newline (`\n`) character**. You can remove it manually:
+
+### **Code to Remove Newline:**
+
+```c
+for (int i = 0; i < 10; i++) {
+    if (input[i] == '\n') {
+        input[i] = '\0';
+        break;
+    }
+}
+```
+
+### **Full Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    char input[10]; // Buffer for 9 chars + '\0'
+
+    printf("Enter your name: ");
+    fgets(input, 10, stdin); // Safe input
+
+    // Remove newline if present
+    for (int i = 0; i < 10; i++) {
+        if (input[i] == '\n') {
+            input[i] = '\0';
+            break;
+        }
+    }
+
+    printf("You entered: %s\n", input);
+    return 0;
+}
+```
+
+## **Comparison: `scanf` vs `fgets`**
+
+| Feature              | `scanf("%s", ...)` | `fgets(...)`                   |
+| -------------------- | ------------------ | ------------------------------ |
+| Reads spaces         | No                 | Yes                            |
+| Buffer overflow risk | High               | Low (buffer size respected)    |
+| Newline included     | No                 | Yes (must be manually removed) |
+| Recommended?         | ❌ No (for strings) | ✅ Yes                          |
+
+## **Best Practices for String Input in C**
+
+* Always **allocate enough space**, including for the null terminator.
+* Use `fgets` for reading strings to avoid buffer overflows.
+* Always **sanitize input** by removing newline characters from the buffer.
+* Avoid `scanf` for reading general strings, especially from untrusted input sources.
