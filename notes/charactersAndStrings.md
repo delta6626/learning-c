@@ -646,3 +646,109 @@ int main() {
     return 0;
 }
 ```
+
+# **String Copying and Concatenation**
+
+### **Overview**
+
+* Two common string manipulation functions in C:
+
+  * **`strcpy()`** – Copies one string into another.
+  * **`strcat()`** – Concatenates (appends) one string to another.
+* Both are defined in the **`<string.h>`** header.
+* It is **essential to include** this header file using:
+
+  ```c
+  #include <string.h>
+  ```
+
+## **1. `strcpy()` – String Copy Function**
+
+### **Function Signature**
+
+```c
+char *strcpy(char *dest, const char *src);
+```
+
+### **Parameters**
+
+* `dest`: Destination buffer (character array).
+* `src`: Source string to be copied.
+
+### **Return Value**
+
+* Returns a pointer to the destination string (`dest`).
+
+### **Key Points**
+
+* The **entire source string** (including the null terminator `'\0'`) is copied to the destination.
+* The destination buffer must be **large enough to hold the source string** and the null terminator.
+* In C, **strings cannot be copied using the `=` assignment operator** as in other languages. Use `strcpy()` instead.
+
+### **Example**
+
+```c
+char full[32];
+char first[] = "George";
+
+strcpy(full, first);  // full now contains "George"
+```
+
+## **2. `strcat()` – String Concatenation Function**
+
+### **Function Signature**
+
+```c
+char *strcat(char *dest, const char *src);
+```
+
+### **Parameters**
+
+* `dest`: Destination buffer where the `src` string will be appended.
+* `src`: Source string to be appended.
+
+### **Return Value**
+
+* Returns a pointer to the resulting string (`dest`).
+
+### **Key Points**
+
+* The **second string** is appended to the end of the first string.
+* `strcat()` automatically finds the null terminator of the destination string and starts appending from there.
+* The destination buffer must have **enough room to contain both the original and appended strings**, plus the null terminator.
+
+### **Important Usage Note**
+
+* `strcat()` only works with **strings**, not individual characters.
+
+  * To concatenate a **space**, you must use a **string literal**: `" "` rather than `' '`.
+
+### **Example (Building Full Name)**
+
+```c
+char full[32];
+char first[] = "George";
+char last[] = "Washington";
+
+strcpy(full, first);        // Step 1: Copy first name into full
+strcat(full, " ");          // Step 2: Append space
+strcat(full, last);         // Step 3: Append last name
+printf("%s\n", full);       // Output: George Washington
+```
+
+## **3. Common Pitfalls and Best Practices**
+
+### **Buffer Size**
+
+* Always ensure that the **destination buffer** (`dest`) is large enough to store the result.
+* For `strcpy(dest, src)`, `dest` must be at least `strlen(src) + 1` bytes.
+* For `strcat(dest, src)`, `dest` must be large enough to hold:
+
+  * The current contents of `dest`
+  * Plus `strlen(src)`
+  * Plus 1 byte for the null terminator.
+
+### **Null Terminator**
+
+* `strcpy()` and `strcat()` **automatically handle** the null terminator (`'\0`).
+* However, if you’re writing your own custom string functions, **you must manually append** the null terminator to ensure proper string termination.
