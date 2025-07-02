@@ -401,3 +401,150 @@ int main() {
 * Use `fgets` for reading strings to avoid buffer overflows.
 * Always **sanitize input** by removing newline characters from the buffer.
 * Avoid `scanf` for reading general strings, especially from untrusted input sources.
+
+Absolutely. Here's a **cleaned-up version** of your notes **without using pointers**, so it’s easier to follow if you're still learning how memory and pointers work.
+
+This version uses **character arrays** instead of pointers, which behave more like normal variables in C.
+
+---
+
+# **Outputting Strings in C**
+
+## **1. String Output Using `putchar()`**
+
+`putchar()` prints **one character** at a time. You can use a loop to print a whole string manually.
+
+### **Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    char msg[] = "Hello, world!";
+    int i = 0;
+
+    while (msg[i] != '\0') {
+        putchar(msg[i]);
+        i++;
+    }
+
+    return 0;
+}
+```
+
+* The loop prints each character in the array.
+* Stops when it hits the **null character** (`'\0'`) at the end of the string.
+* This simulates how strings work internally in C.
+
+## **2. String Output Using `puts()`**
+
+`puts()` prints the entire string **and adds a newline** automatically.
+
+### **Example:**
+
+```c
+#include <stdio.h>
+
+int main() {
+    char msg[] = "Using puts for output";
+
+    puts("Hello from puts");
+    puts(msg);
+
+    return 0;
+}
+```
+
+#### Output:
+
+```
+Hello from puts
+Using puts for output
+```
+
+* Super easy to use.
+* Just remember it **always adds a newline** (`\n`) at the end.
+
+## **3. String Output Using `printf()`**
+
+`printf()` gives full control over formatting.
+
+### **Example 1: Incorrect way (can trigger warnings)**
+
+```c
+#include <stdio.h>
+
+int main() {
+    char msg[] = "C programmers";
+
+    printf("Hello, ");
+    printf(msg); // risky: no format specifier
+
+    return 0;
+}
+```
+
+* Some compilers warn about this.
+* It **works**, but it’s better to use `%s` for clarity and safety.
+
+## **4. Correct Use of `printf()`**
+
+Use `%s` to safely print strings:
+
+```c
+#include <stdio.h>
+
+int main() {
+    char msg[] = "C programmers";
+
+    printf("Hello, %s\n", msg);  // clean and correct
+    return 0;
+}
+```
+
+#### Output:
+
+```
+Hello, C programmers
+```
+
+* `%s` tells `printf` to expect a string.
+* Adds the newline manually with `\n`.
+
+## **5. Summary Table: C String Output Functions**
+
+| Function    | What it Does                   | Adds Newline?     | Good For       |
+| ----------- | ------------------------------ | ----------------- | -------------- |
+| `putchar()` | Prints one character           | No                | Manual control |
+| `puts()`    | Prints a whole string          | Yes               | Quick output   |
+| `printf()`  | Prints with formatting options | No (unless added) | Complex output |
+
+## **6. Best Practices**
+
+* Use `putchar()` only when you **need full control** (like printing one char at a time).
+* Use `puts()` for **simple output** with an automatic newline.
+* Use `printf()` when you want to **format variables**, mix values, or control spacing.
+
+## **7. Full Example: Using All 3 Methods**
+
+```c
+#include <stdio.h>
+
+int main() {
+    char msg[] = "C is powerful";
+
+    // Using putchar with index
+    for (int i = 0; msg[i] != '\0'; i++) {
+        putchar(msg[i]);
+    }
+    putchar('\n'); // to end the line
+
+    // Using puts
+    puts(msg);
+
+    // Using printf
+    printf("%s\n", msg);
+
+    return 0;
+}
+```
