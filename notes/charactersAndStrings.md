@@ -548,3 +548,101 @@ int main() {
     return 0;
 }
 ```
+
+# **String Functions**
+
+### **1. Overview of `<string.h>`**
+
+* The C Standard Library provides a variety of functions to **examine and manipulate strings**.
+* These functions are **declared in the `<string.h>` header file**.
+* You **must include `<string.h>`** in your source code to use these functions. Not doing so may result in **compiler errors or warnings**.
+
+### **2. Strings in C**
+
+* A **string** in C is an array of `char` ending in a **null character (`'\0'`)**.
+* String literals are enclosed in **double quotes**, e.g., `"hello"`.
+* When working with string functions, it's important to understand that:
+
+  * **The null terminator (`'\0'`) is not counted** in string length.
+  * **Escape sequences** (e.g., `\n`) are **counted as one character**.
+
+### **3. `strlen()` – String Length Function**
+
+#### **Function Signature**
+
+```c
+size_t strlen(const char *str);
+```
+
+#### **Parameters**
+
+* Takes a **single argument**: a pointer to a null-terminated string (`char*` or string literal).
+
+#### **Return Value**
+
+* Returns the **number of characters in the string**, **excluding** the null terminator.
+* The return type is `size_t`:
+
+  * An **unsigned integer type**.
+  * Represents **memory size** or **number of bytes**.
+
+#### **Example**
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[] = "string";
+    size_t len = strlen(str);
+    printf("The length of the string is %zu\n", len);
+    return 0;
+}
+```
+
+#### **Notes**
+
+* If the string is `"This is a string\n"`, then `strlen()` returns **16**, counting all visible and escaped characters but **not the null terminator**.
+
+### **4. `strcmp()` – String Comparison Function**
+
+#### **Function Signature**
+
+```c
+int strcmp(const char *str1, const char *str2);
+```
+
+#### **Parameters**
+
+* Takes **two strings** as arguments: `str1` and `str2`.
+
+#### **Return Value**
+
+* Returns:
+
+  * **0** if the strings are **equal**.
+  * A **negative integer** if `str1` is **less than** `str2`.
+  * A **positive integer** if `str1` is **greater than** `str2`.
+
+#### **Example (Password Check)**
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char password[] = "letmein\n";  // includes newline
+    char input[50];
+
+    printf("Enter password: ");
+    fgets(input, sizeof(input), stdin);  // retains the newline character
+
+    if (strcmp(input, password) == 0) {
+        printf("Entry granted.\n");
+    } else {
+        printf("Incorrect password.\n");
+    }
+
+    return 0;
+}
+```
