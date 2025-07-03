@@ -133,3 +133,85 @@ printf("%d\n", *ptr);
 * Essential for **function argument passing** by reference.
 * Required for handling **arrays**, **strings**, and **data structures** like linked lists.
 * Allow low-level **memory manipulation**.
+
+# Pointer math
+
+### **Pointer Arithmetic – Adding 1 to a Pointer**
+
+```c
+printf("%p\n", pa);     // prints address of alpha
+printf("%p\n", pa + 1); // prints address + 1
+```
+
+* Adding 1 to a pointer increases the address by the **size of the data type** the pointer points to.
+
+* For `int *`, the increment is typically **4 bytes**.
+* This means:
+
+  * If `pa = 0x1000`, then `pa + 1 = 0x1004` (assuming `sizeof(int) == 4 (bytes)`).
+
+### **Unsafe vs Safe Pointer Arithmetic**
+
+* **Unsafe**: Doing pointer arithmetic that points outside the valid memory bounds (e.g., `pa + 1` when `pa` doesn’t point to an array) results in referencing unknown or invalid memory.
+* **Safe**: When operating within an array, pointer arithmetic can safely traverse the array elements.
+* Pointer arithmetic is safe only when you're working within the bounds of an array.
+
+### **Pointers and Arrays**
+
+```c
+int twos[] = {2, 4, 6, 8, 10};
+int *pt = twos;
+```
+
+* No ampersand is needed in `pt = twos;` because the array name (`twos`) decays to a pointer to its first element.
+* `pt` points to the first element of the array.
+* `pt + 1` points to the second element of the array.
+* Address difference:
+
+  * `pt` vs `pt + 1` shows a 4-byte difference (again, due to `int` size).
+
+### **Pointer Arithmetic and Data Type Size**
+
+Pointer arithmetic is directly affected by the data type the pointer points to:
+
+| Data Type | Size (Bytes) | Pointer Increment (`ptr + 1`) |
+| --------- | ------------ | ----------------------------- |
+| `char`    | 1 byte       | +1 byte                       |
+| `int`     | 4 bytes      | +4 bytes                      |
+| `float`   | 4 bytes      | +4 bytes                      |
+| `double`  | 8 bytes      | +8 bytes                      |
+
+Examples:
+
+* `char *pc` → `pc + 1` increases address by 1 byte.
+* `double *pd` → `pd + 1` increases address by 8 bytes.
+
+### **Pointer Math Summary**
+
+* Pointer arithmetic increases or decreases the address stored in the pointer by **multiples of the size of the data type**.
+* This behavior allows pointer variables to traverse arrays element by element, regardless of element size.
+* The actual address manipulation:
+
+  ```c
+  ptr + i → address + i * sizeof(type)
+  ```
+
+### **Use of `sizeof` Operator**
+
+* The `sizeof` operator is used to determine how many bytes a data type occupies in memory.
+* Note: %zu is the correct specifier for printing unsigned size_t values
+* Example:
+
+  ```c
+  printf("%zu", sizeof(int));    // typically prints 4
+  printf("%zu", sizeof(double)); // typically prints 8
+  ```
+
+### **Practical Implications**
+
+* Pointer arithmetic is essential for:
+
+  * Array traversal
+  * Dynamic memory management
+  * Efficient algorithm implementation (e.g., iterators, memory buffers)
+* Understanding how pointer arithmetic scales with data type size is critical for writing correct and safe C programs.
