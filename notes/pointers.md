@@ -316,3 +316,94 @@ Examples:
    ```c
    *(pt + n)
    ```
+
+# Dynamic Memory Allocation with `malloc()` and `free()`
+
+### 1. Allocating Memory on the Fly
+
+* When a program needs a block of memory **dynamically** (at runtime), it uses the `malloc()` function.
+* `malloc()` is declared in the **`<stdlib.h>`** header, so this must be included.
+* You declare a pointer (e.g., `char *buffer`) to hold the address of the allocated memory.
+
+### 2. How `malloc()` Works
+
+```c
+char *buffer = malloc(128 * sizeof(char));
+```
+
+* `malloc()` takes **one argument:** the number of bytes to allocate.
+* Here, it allocates space for **128 characters**.
+* Multiplying `128 * sizeof(char)` ensures correct byte count, making the code adaptable if the data type changes.
+* The function returns an **address** to the start of the allocated memory.
+* If allocation **fails**, `malloc()` returns the **NULL pointer**.
+
+### 3. Checking Allocation Success
+
+```c
+if (buffer == NULL) {
+    printf("Memory allocation failed\n");
+    exit(1); // Immediately exits the program
+}
+```
+
+* Immediately after allocation, check if `buffer` is `NULL`.
+* 
+* If yes, print an error and **exit**.
+* The `exit()` function terminates the program immediately and can be used anywhere (unlike `return` which exits only from functions).
+
+### 4. Using the Allocated Memory
+
+* Once allocated, the buffer can be used to store data.
+* Even if your code doesn’t use the buffer immediately, successful allocation means the memory is reserved.
+
+### 5. Freeing Memory After Use
+
+```c
+free(buffer);
+```
+
+* Once done, **free** the allocated memory to avoid memory leaks.
+* `free()` takes the pointer to the allocated block and releases the memory back to the system.
+* It returns **no value**.
+* The `free()` and `exit()` function is also defined in `stdlib.h` header file.
+
+### 6. Important: Keep the Original Pointer for `free()`
+
+* You **must keep the original pointer address** returned by `malloc()`.
+* **Do not modify the original pointer** by incrementing it (e.g., `buffer++`).
+* If you change the pointer and then pass it to `free()`, the behavior is undefined and likely to cause errors.
+
+### 7. Accessing Elements Safely with Pointer Arithmetic
+
+```c
+for (int i = 0; i < 20; i++) {
+    *(buffer + i) = i * 10; // Assign value without modifying 'buffer'
+    printf("%d\n", *(buffer + i));
+}
+```
+
+* Use a **separate pointer or pointer arithmetic** to navigate the allocated block.
+* Incrementing **copies or offsets** the pointer for reading/writing but does **not modify** the original pointer.
+
+### 8. Example Summary
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int *buffer = malloc(20 * sizeof(int));
+    if (buffer == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+
+    for (int i = 0; i < 20; i++) {
+        *(buffer + i) = i * 10;
+        printf("%d\n", *(buffer + i));
+    }
+
+    free(buffer); // safe because 'buffer' wasn't modified
+    return 0;
+}
+```
