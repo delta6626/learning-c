@@ -215,3 +215,104 @@ Examples:
   * Dynamic memory management
   * Efficient algorithm implementation (e.g., iterators, memory buffers)
 * Understanding how pointer arithmetic scales with data type size is critical for writing correct and safe C programs.
+
+# Understanding Pointers and Arrays
+
+### 1. **Character Arrays and `scanf()`**
+
+* **Character Array Example**:
+
+  ```c
+  char text[10];
+  scanf("%s", text); // No & operator needed
+  ```
+* **Why no `&`?**
+
+  * Arrays already act like **pointers to their first element**.
+  * So `text` is interpreted as a memory address (`&text[0]` implicitly).
+* **Contrast**:
+
+  ```c
+  int x;
+  scanf("%d", &x); // You need & for individual variables
+  ```
+
+### 2. **Array Name as a Pointer**
+
+* When you write:
+
+  ```c
+  int arr[5] = {2, 4, 6, 8, 10};
+  int *pt = arr;  // No & needed
+  ```
+
+  * `arr` decays to a pointer to its first element.
+  * `pt` now holds the same address as `arr`.
+
+* **Verifying the addresses**:
+
+  ```c
+  printf("%p\n", pt);    // address of pt
+  printf("%p\n", arr);   // same address as above
+  ```
+
+### 3. **Accessing Array Elements with Pointers**
+
+* You can access array elements using both:
+
+  * **Array notation**: `arr[2]`
+  * **Pointer notation**: `*(pt + 2)`
+
+* Example using a loop:
+
+  ```c
+  for (int i = 0; i < 5; i++) {
+      printf("Address: %p, Value: %d\n", (pt + i), *(pt + i));
+  }
+  ```
+
+### 4. **Why Parentheses Matter**
+
+* To access an array element with pointer arithmetic:
+
+  ```c
+  *(pt + 1)  // Correct: fetches value at next address
+  ```
+* Without parentheses:
+
+  ```c
+  *pt + 1    // Wrong: adds 1 to the value at pt
+  ```
+
+  * This returns: `(*pt) + 1`, not what you intended.
+
+### 5. **Deconstructing Access**
+
+```c
+*(pt + 0) // same as pt[0]
+*(pt + 1) // same as pt[1]
+...
+```
+
+* This shows **equivalence** between pointer arithmetic and array indexing.
+* But pointer math requires precision — formatting matters!
+
+### 6. **Pointers vs Arrays – Similar but Different**
+
+| Feature               | Pointer       | Array              |
+| --------------------- | ------------- | ------------------ |
+| Acts as address?      | Yes           | Yes (base address) |
+| Can be reassigned?    | Yes           | No                 |
+| Can be resized?       | Dynamically   | Fixed size         |
+
+### 7. **Accessing Elements Using Pointers (Steps)**
+
+1. **Declare** a pointer of the same data type as the array.
+2. **Initialize** the pointer to the base address of the array.
+3. Use `*pointer` to access the value.
+4. Use `pointer + n` to move to the nth element.
+5. Wrap the pointer math in `()` before dereferencing:
+
+   ```c
+   *(pt + n)
+   ```
