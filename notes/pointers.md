@@ -407,3 +407,94 @@ int main() {
     return 0;
 }
 ```
+
+# **Array of pointers**
+
+### 1. Array of Pointers to Strings
+
+When you declare:
+
+```c
+char *veeps[] = {
+    "Adams",
+    "Jefferson",
+    "Burr",
+    "Clinton",
+    "Gerry"
+};
+```
+
+* `veeps` is an **array of pointers to char** (`char *`).
+* Each element `veeps[i]` is a pointer to the first character of a string literal.
+* The strings themselves are stored separately in memory as null-terminated arrays of characters.
+
+### 2. Array Name Decays to Pointer to Pointer
+
+* In expressions, `veeps` *decays* to a pointer to its first element.
+* Since each element is a `char *`, the type of `veeps` in expressions is `char **` (pointer to pointer to char).
+* So `veeps` points to the first pointer in the array.
+
+### 3. Accessing Elements Using Pointer Arithmetic and Dereferencing
+
+* `veeps + i` is a pointer to the i-th element of the array (`char **`).
+* `*(veeps + i)` dereferences this pointer, giving the i-th element itself — a `char *` pointer to a string.
+* `veeps[i]` is syntactic sugar for `*(veeps + i)`; both give the same `char *`.
+
+### 4. Printing Strings
+
+For example, to print each string:
+
+```c
+for (int i = 0; i < 5; i++) {
+    printf("%s\n", *(veeps + i)); // or printf("%s\n", veeps[i]);
+}
+```
+
+* `%s` expects a `char *` (pointer to a string).
+* `*(veeps + i)` provides a `char *`, so it matches perfectly.
+* Without dereferencing, `veeps + i` is `char **` (pointer to pointer), which does **not** match `%s`.
+
+### 5. Swapping Strings by Swapping Pointers
+
+```c
+char *temp = veeps[1];
+veeps[1] = veeps[2];
+veeps[2] = temp;
+```
+
+* `veeps[1]` and `veeps[2]` are pointers to strings, **not** the strings themselves.
+* This code swaps the pointers, meaning `veeps[1]` now points to the string `"Burr"` instead of `"Jefferson"`, and vice versa.
+* No characters are copied or moved — only pointer addresses are swapped, which is much faster and more memory-efficient than copying whole strings.
+
+### 6. Accessing Individual Characters Using Double Dereferencing
+
+To get the first character of the i-th string:
+
+```c
+char firstChar = *(*(veeps + i));
+```
+
+* `veeps + i` is a `char **`, pointing to the i-th pointer.
+* `*(veeps + i)` is the i-th pointer itself (`char *`).
+* `*(*(veeps + i))` dereferences that pointer to get the first character (`char`).
+
+To access the j-th character of the i-th string:
+
+```c
+char ch = *(*(veeps + i) + j);
+```
+
+* `*(veeps + i)` points to the start of the i-th string.
+* Adding `j` moves to the j-th character.
+* Dereferencing gets the character at that position.
+
+### 7. Summary of Pointer Types and Expressions
+
+| Expression            | Type      | Description                                                            |
+| --------------------- | --------- | ---------------------------------------------------------------------- |
+| `veeps`               | `char **` | Pointer to the first element of the array (pointer to pointer to char) |
+| `veeps + i`           | `char **` | Pointer to the i-th element in the array                               |
+| `*(veeps + i)`        | `char *`  | The i-th string pointer                                                |
+| `veeps[i]`            | `char *`  | Same as `*(veeps + i)` (the i-th string pointer)                       |
+| `*(*(veeps + i))`     | `char`    | First character of the i-th string                                     |
+| `*(*(veeps + i) + j)` | `char`    | The j-th character of the i-th string                                  |
