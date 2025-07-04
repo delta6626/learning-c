@@ -660,3 +660,95 @@ int main() {
 * Allocate memory for the structure first, then the pointer member.
 * Use **`->`** to access all members.
 * Always free pointer members first, then the structure pointer.
+
+# Passing Pointers to Functions
+
+### Overview
+
+In C, **pointers allow functions to access and modify variables outside their local scope** by working directly with memory addresses. This is crucial for:
+
+* Modifying function arguments
+* Returning multiple values
+* Working with dynamic memory
+* Efficiency (avoiding large data copies)
+
+### Case 1: Passing a Pointer to Modify a Value
+
+When a pointer is passed to a function, the function receives an **address**. Using the dereference operator `*`, the function can access or modify the value stored at that memory location.
+
+#### Code Example: Doubling an Integer
+
+```c
+#include <stdio.h>
+
+void doubler(int *alpha) {
+    *alpha *= 2;  // Dereference and modify the value
+}
+
+int main() {
+    int a = 25;
+    
+    // Pass address of variable 'a' to the function
+    doubler(&a);
+    
+    printf("Doubled value: %d\n", a);  // Output: 50
+    return 0;
+}
+```
+
+#### Key Points
+
+* `*alpha` accesses the value at the memory location.
+* `doubler` modifies `a` without returning anything.
+* `&a` passes the address of `a` to the function.
+
+### Case 2: Passing Pointers to Return Multiple Values
+
+Since a C function can return only **one value directly**, we can pass multiple pointers to allow the function to write into several variables, effectively returning multiple values.
+
+#### Code Example: Compute a Third and Two Derived Values
+
+```c
+#include <stdio.h>
+
+void three(float a, float *b, float *c) {
+    *b = a / 2;
+    *c = a / 4;
+}
+
+int main() {
+    float x, y;
+
+    // Call the function with the address of x and y
+    three(20.0f, &x, &y);
+
+    printf("Half of 20: %.2f\n", x);  // Output: 10.00
+    printf("Quarter of 20: %.2f\n", y);  // Output: 5.00
+
+    return 0;
+}
+```
+
+#### Key Points
+
+* `three` takes one value and two pointer parameters.
+* `*b` and `*c` allow writing into `x` and `y` in `main`.
+* No return is needed — values are modified directly.
+
+### Practical Insight
+
+This technique is also how **`scanf`** works:
+
+```c
+int a;
+scanf("%d", &a);  // Passes address of 'a' so value can be stored
+```
+
+Here, `scanf` takes a **pointer to a variable** and writes into it — just like our custom functions above.
+
+### Important Reminders
+
+* You can pass the **address of a variable** using the `&` operator.
+* Or, assign the address to a pointer and pass the pointer itself.
+* **Uninitialized pointers** should **never** be passed to functions — doing so leads to undefined behavior.
+* Always make sure that the pointer points to a **valid memory location** before use.
