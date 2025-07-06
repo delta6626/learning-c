@@ -11,9 +11,23 @@ To work with files in C, the standard I/O library (`<stdio.h>`) provides functio
   * `filename`: Name of the file, passed as a string.
   * `mode`: A string specifying the access mode. Two common modes are:
 
-    * `"r"` – Open for reading. The file must exist.
-    * `"w"` – Open for writing. Creates the file or overwrites it if it exists.
-    * `"a"` - Open for appending. Appends data to a file. Creates the file if it doesn't exist.
+    * `"r"`   – Open for **reading**. The file must exist.
+    * `"w"`   – Open for **writing**. Creates the file or overwrites it if it exists.
+    * `"a"`   – Open for **appending**. Appends data to a file. Creates the file if it doesn't exist.
+    * `"r+"`  – Open for **reading and writing**, must already exist.
+    * `"w+"`  – Create for **reading and writing**, truncates if it exists.
+    * `"a+"`  – Open for **reading and appending**, creates if it doesn't exist.
+    * `"wx"`  – Create for **writing**, fail if file exists.
+    * `"w+x"` – Create for **reading and writing**, fail if file exists.
+
+
+"w+": Create for reading and writing, truncates if it exists.
+
+"a+": Open for reading and appending, creates if it doesn't exist.
+
+"wx": Non-standard in C (but POSIX extension): Create for writing, fail if file exists.
+
+"w+x": Also non-standard/POSIX — open for reading and writing, fail if file exists.
 
 * **Return Value**: Returns a file pointer (handle) if successful. Returns `NULL` if the file cannot be opened.
 
