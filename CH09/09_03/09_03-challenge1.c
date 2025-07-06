@@ -30,6 +30,13 @@ int main()
 	printf(" has written to this file.\n");
 
 	FILE *fileReader = fopen(filename, "r");
+
+	if (fileReader == NULL)
+	{
+		printf("Error reading from file!\n");
+		exit(1);
+	}
+
 	char readUsername[50];
 	int x = 0;
 	char c;
