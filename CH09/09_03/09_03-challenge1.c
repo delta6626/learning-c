@@ -8,7 +8,7 @@ int main()
 	printf("Enter your name: ");
 	fgets(username, 50, stdin);
 
-	const FILE *fileWriter = fopen(filename, "w");
+	FILE *fileWriter = fopen(filename, "w");
 	if (fileWriter == NULL)
 	{
 		printf("Error creating file!");
@@ -29,7 +29,7 @@ int main()
 	}
 	printf(" has written to this file.\n");
 
-	const FILE *fileReader = fopen(filename, "r");
+	FILE *fileReader = fopen(filename, "r");
 	char readUsername[50];
 	int x = 0;
 	char c;
