@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <string.h>
 
 int main()
 {
@@ -38,6 +38,7 @@ int main()
 		c = fgetc(fileReader);
 		if (c == '\n')
 		{
+			readUsername[x] = '\0';
 			break;
 		}
 		else
