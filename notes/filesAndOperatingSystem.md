@@ -12,7 +12,8 @@ To work with files in C, the standard I/O library (`<stdio.h>`) provides functio
   * `mode`: A string specifying the access mode. Two common modes are:
 
     * `"r"` – Open for reading. The file must exist.
-    * `"w"` – Open for writing. Creates the file or truncates it if it exists.
+    * `"w"` – Open for writing. Creates the file or overwrites it if it exists.
+    * `"a"` - Open for appending. Appends data to a file. Creates the file if it doesn't exist.
 
 * **Return Value**: Returns a file pointer (handle) if successful. Returns `NULL` if the file cannot be opened.
 
