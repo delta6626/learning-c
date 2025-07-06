@@ -3,10 +3,19 @@
 
 int main()
 {
+
+	/*
+	Fetch user input
+	*/
+
 	const char filename[] = "hello.txt";
 	char username[50];
 	printf("Enter your name: ");
 	fgets(username, 50, stdin);
+
+	/*
+	Write to file
+	*/
 
 	FILE *fileWriter = fopen(filename, "w");
 	if (fileWriter == NULL)
@@ -28,6 +37,10 @@ int main()
 		}
 	}
 	printf(" has written to this file.\n");
+
+	/*
+	Read from file
+	*/
 
 	FILE *fileReader = fopen(filename, "r");
 
