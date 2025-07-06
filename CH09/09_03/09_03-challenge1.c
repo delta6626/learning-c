@@ -26,6 +26,7 @@ int main()
 	else
 	{
 		fputs(username, fileWriter);
+		// Close the file after writing
 		fclose(fileWriter);
 	}
 
@@ -36,6 +37,7 @@ int main()
 			putchar(username[i]);
 		}
 	}
+
 	printf(" has written to this file.\n");
 
 	/*
@@ -67,6 +69,8 @@ int main()
 			x += 1;
 		}
 	}
+
+	// Close the file
 
 	fclose(fileReader);
 
