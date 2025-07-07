@@ -225,3 +225,93 @@ fclose(file);
 * Binary files are **not portable** between systems with different endianness or word sizes.
 * You **must know** the exact layout of the data in the file.
 * Cannot be edited manually or viewed as plain text.
+
+# **File Position Indicator**
+
+* When a file is opened for reading or writing, the **operating system** uses a **file position indicator**.
+* This indicator keeps track of where data is **read from** or **written to** within the file.
+
+### **2. Types of File Access**
+
+#### **A. Sequential File Access**
+
+* Data is read or written **one byte after another**, from **start to end**.
+* The file position indicator **automatically advances** as the file is read or written.
+* Reading continues until:
+
+  * The **end-of-file (EOF)** is reached, or
+  * The `feof()` function returns `true`.
+
+#### **B. Random File Access**
+
+* The file position indicator can be **manually set** to any location in the file.
+* Allows **non-sequential** access to data.
+* Best suited for files containing **uniform data**, such as:
+
+  * Arrays of integers
+  * Structures
+  * Other consistently sized data types
+
+### **3. The `fseek` Function**
+
+#### **Prototype:**
+
+```c
+int fseek(FILE *stream, long int offset, int whence);
+```
+
+#### **Arguments:**
+
+1. **`FILE *stream`**: The file handle (pointer to the file).
+2. **`long int offset`**: The number of bytes to move the file position indicator.
+3. **`int whence`**: The reference point from which the offset is measured.
+
+#### **Values for `whence`:**
+
+* `SEEK_SET`: Offset is from the **start of the file**.
+* `SEEK_CUR`: Offset is from the **current position**.
+* `SEEK_END`: Offset is from the **end of the file**.
+
+#### **Return Value:**
+
+* Returns `0` on **success**.
+* Returns `-1` on **failure**.
+
+### **4. Practical Example: Accessing Records in a Data File**
+
+#### **Creating the File**
+
+* A structure array called `presidents[]` is declared and initialized.
+* `fwrite()` is used to write all structures to a binary file `presidents.dat`.
+* The file is then closed.
+* This program has **no standard output** and is used to prepare data for the next step.
+
+#### **Reading a Specific Record**
+
+* The file `presidents.dat` is opened for reading.
+* The user is prompted to **enter a record number** to read.
+* Input validation ensures the value is within a valid range (e.g., 1–10).
+* The value is decremented (e.g., `x--`) to match **zero-based indexing**.
+
+#### **Using `fseek` to Locate the Record**
+
+* `fseek()` is used to **move the file position indicator** to the desired structure in the file:
+
+  ```c
+  fseek(fp, x * sizeof(struct person), SEEK_SET);
+  ```
+* This moves the indicator to the location of the `x`-th structure (record).
+* The size of the structure is used to calculate the correct offset.
+* The offset is measured from the **start of the file**.
+
+#### **Example Output**
+
+* If the user selects record 4, the structure at that position is read.
+* The output should correctly show **James Madison**, demonstrating proper random access.
+
+### **5. Key Concepts to Remember**
+
+* `fseek` enables **random file access**, crucial for reading/writing specific portions of structured data files.
+* Uniform data (equal-sized records) is essential for `fseek` to work correctly.
+* The second argument in `fseek` must be carefully calculated using `sizeof()` to ensure correct positioning.
+* Always validate user input when accessing specific records to avoid file errors or corruption.
