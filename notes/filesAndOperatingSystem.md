@@ -93,3 +93,131 @@ fclose(fh);
 ```
 
 Closing a file is necessary to prevent memory leaks and to ensure data integrity, especially in write mode.
+
+# **Reading and Writing Binary Data in C using `fread` and `fwrite`**
+
+### **1. Standard File I/O vs. Binary I/O**
+
+* Standard CIO (`fprintf`, `fscanf`, etc.) functions deal with **text-based data**.
+* For **raw (binary) data**, use:
+
+  * `fwrite()` for writing binary data.
+  * `fread()` for reading binary data.
+
+### **2. File Handling Basics**
+
+* File opening and closing operations are **the same** for both text and binary I/O.
+
+  * Use `fopen()` to open a file.
+
+    * `"wb"` mode for writing binary files.
+    * `"rb"` mode for reading binary files.
+  * Use `fclose()` to close the file.
+
+### **3. Writing Data Using `fwrite()`**
+
+#### **Function Signature:**
+
+```c
+size_t fwrite(const void *ptr, size_t size, size_t count, FILE *stream);
+```
+
+#### **Parameters:**
+
+1. `ptr` – Pointer to the data you want to write (e.g., `&A` or `A` for arrays).
+2. `size` – Size of each data element (e.g., `sizeof(int)`).
+3. `count` – Number of elements to write.
+4. `stream` – File pointer returned by `fopen()`.
+
+#### **Example (Writing 10 integers):**
+
+```c
+FILE *file = fopen("integers.dat", "wb");
+int A;
+for (int i = 0; i < 10; i++) {
+    A = 10 + (i * 5); // Values: 10, 15, ..., 55
+    fwrite(&A, sizeof(int), 1, file);
+}
+fclose(file);
+```
+
+#### **Explanation:**
+
+* The file `integers.dat` is created with 10 binary integers.
+* Each integer occupies **4 bytes**.
+* The loop writes one integer at a time.
+
+### **4. Viewing Binary Data**
+
+* Binary files do **not** store human-readable numbers.
+* Use a hex viewer or terminal tools (like `hexdump -C integers.dat` or `xxd`) to inspect raw binary contents.
+* Example:
+
+  * `0A` for 10
+  * `37` for 55
+
+### **5. Reading Data Using `fread()`**
+
+#### **Function Signature:**
+
+```c
+size_t fread(void *ptr, size_t size, size_t count, FILE *stream);
+```
+
+#### **Parameters:**
+
+1. `ptr` – Pointer to the memory where the read data will be stored.
+2. `size` – Size of each data chunk to read (e.g., `sizeof(int)`).
+3. `count` – Number of chunks to read.
+4. `stream` – File pointer to the open file.
+
+### **Example 1: Reading One Integer at a Time**
+
+```c
+FILE *file = fopen("integers.dat", "rb");
+int A;
+for (int i = 0; i < 10; i++) {
+    fread(&A, sizeof(int), 1, file);
+    printf("%d\n", A);
+}
+fclose(file);
+```
+
+#### **Explanation:**
+
+* Each `fread` call reads one integer into variable `A`.
+* The values are printed immediately after being read.
+
+### **Example 2: Reading an Array of Integers at Once**
+
+```c
+FILE *file = fopen("integers.dat", "rb");
+int A[10];
+fread(A, sizeof(int), 10, file);  // Read all at once
+for (int i = 0; i < 10; i++) {
+    printf("%d\n", A[i]);
+}
+fclose(file);
+```
+
+#### **Changes from Previous Example:**
+
+* Variable `A` is now an **array of 10 integers**.
+* `fread` is **moved outside the loop** to read all data in one operation.
+* The loop only prints the elements using **array notation** (`A[i]`).
+* No need for the address-of (`&`) operator with arrays (since the array name already points to the first element).
+
+### **6. Advantages of `fwrite` and `fread`**
+
+* Efficient for **reading/writing large chunks of data**.
+* Faster than line-by-line or value-by-value processing.
+* Ideal when:
+
+  * Data is **homogeneous** (same type throughout).
+  * You **know the structure** and size of the data in advance.
+
+### **7. Limitations**
+
+* Binary files are **not portable** between systems with different endianness or word sizes.
+* You **must know** the exact layout of the data in the file.
+* Cannot be edited manually or viewed as plain text.
