@@ -120,6 +120,10 @@ Closing a file is necessary to prevent memory leaks and to ensure data integrity
 
 ```c
 size_t fwrite(const void *ptr, size_t size, size_t count, FILE *stream);
+
+/*
+Note: Because void * is a generic pointer type in C, it allows the function to accept a pointer to any data type, such as int *, char *, float *, etc.
+*/
 ```
 
 #### **Parameters:**
