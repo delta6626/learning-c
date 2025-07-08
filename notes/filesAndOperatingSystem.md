@@ -424,3 +424,96 @@ All these functions return `0` on success, and a **non-zero (usually -1)** value
 * Prefer `"rb"` and `"wb"` modes for copying to handle all file types.
 * Handle errors gracefully and report failures to the user.
 * Close all opened files to avoid memory leaks or file corruption.
+
+
+# **Working with Directories**
+
+#### **1. Accessing Files**
+
+* A program can access a file if it knows the **filename**, provided the file is in the **same directory** from which the program is running.
+* To work with files in **other directories**, the program must:
+
+  * Use a **full path** (absolute path),
+  * Use a **relative path**, or
+  * **Change the current working directory** using a system function.
+
+#### **2. Current Working Directory (CWD)**
+
+##### **Function: `getcwd`**
+
+* Retrieves the **current working directory** of the running program.
+* **Prototype:** `char *getcwd(char *buf, size_t size);`
+* **Header File:** `unistd.h`
+* **Arguments:**
+
+  * `buf`: A character array (buffer) to store the directory path.
+  * `size`: The size of the buffer.
+* **Returns:**
+
+  * Pointer to the buffer (`buf`) on success.
+  * `NULL` on failure.
+* This function helps verify or log the directory context in which the program is executing.
+
+##### **Usage Example:**
+
+```c
+#include <unistd.h>
+#include <stdio.h>
+
+int main() {
+    char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        printf("Current directory: %s\n", cwd);
+    } else {
+        perror("getcwd() error");
+    }
+    return 0;
+}
+```
+
+#### **3. Changing Directories**
+
+##### **Function: `chdir`**
+
+* Changes the **current working directory** of the running program.
+* **Prototype:** `int chdir(const char *path);`
+* **Header File:** `unistd.h`
+* **Argument:**
+
+  * `path`: A string representing the target directory path.
+
+    * Can be relative (e.g., `".."` for parent) or absolute (e.g., `"/home/user/docs"`).
+* **Returns:**
+
+  * `0` on success.
+  * `-1` on failure.
+
+##### **Common Usage:**
+
+* `".."` (dot dot) is a shortcut for the **parent directory**.
+* Useful for temporarily moving around the filesystem during program execution.
+
+##### **Usage Example:**
+
+```c
+#include <unistd.h>
+#include <stdio.h>
+
+int main() {
+    if (chdir("..") == 0) {
+        char cwd[1024];
+        if (getcwd(cwd, sizeof(cwd)) != NULL) {
+            printf("Changed to parent directory: %s\n", cwd);
+        }
+    } else {
+        perror("chdir() error");
+    }
+    return 0;
+}
+```
+
+#### **4. Important Notes**
+
+* The **change of directory using `chdir` is only effective during the program’s execution**.
+* Once the program terminates, the **original working directory** (from which the program was started) is **restored** by the operating system.
+* This behavior makes `chdir` useful for temporarily accessing files or executing operations in different directory contexts.
