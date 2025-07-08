@@ -625,3 +625,142 @@ int main() {
     return 0;
 }
 ```
+
+# Using `stat()` Read File Metadata
+
+## Purpose
+
+The `stat()` function retrieves metadata about a file:
+
+* Size in bytes
+* Last modification time
+* File type (e.g., regular file or directory)
+
+## Required Headers
+
+```c
+#include <stdio.h>      // For printf()
+#include <sys/stat.h>   // For stat(), struct stat
+#include <dirent.h>     // For directory handling
+#include <string.h>     // For string operations like snprintf()
+#include <time.h>       // For ctime()
+```
+
+## The `stat()` Function
+
+### Prototype
+
+```c
+int stat(const char *pathname, struct stat *statbuf);
+```
+
+* **pathname**: path to the file
+* **statbuf**: pointer to a `struct stat` that will be filled with file info
+* **Returns**: `0` on success, `-1` on error
+
+---
+
+## Key Members of `struct stat`
+
+```c
+struct stat {
+    off_t  st_size;     // File size in bytes
+    time_t st_mtime;    // Last modified time
+    mode_t st_mode;     // File type and permission bits
+    ...
+};
+```
+
+## Basic Example: Getting Info for a Single File
+
+```c
+#include <stdio.h>
+#include <sys/stat.h>
+#include <time.h>
+
+int main() {
+    struct stat fileStat;
+
+    if (stat("alpha.txt", &fileStat) != 0) {
+        printf("Error: could not retrieve file info.\n");
+        return 1;
+    }
+
+    printf("File: %-20s\n", "alpha.txt");
+    printf("Size: %-10ld bytes\n", fileStat.st_size);
+    printf("Last Modified: %s", ctime(&fileStat.st_mtime));
+
+    return 0;
+}
+```
+
+## Directory Listing Example: Show Info for All Files in `.`
+
+This example:
+
+* Opens the current directory
+* Uses `readdir()` to loop through each entry
+* Uses `stat()` to get file info
+* Uses `S_ISDIR()` to check file type
+* Displays name, type, size, and timestamp
+
+### Full Code:
+
+```c
+#include <stdio.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <string.h>
+#include <time.h>
+
+int main() {
+    DIR *dir;
+    struct dirent *entry;
+    struct stat fileStat;
+    char path[1024];
+
+    dir = opendir(".");
+    if (dir == NULL) {
+        printf("Error: could not open directory.\n");
+        return 1;
+    }
+
+    printf("%-30s %-10s %-12s %s\n", "File Name", "Type", "Size", "Last Modified");
+    printf("-------------------------------------------------------------------------------\n");
+
+    while ((entry = readdir(dir)) != NULL) {
+        // Reset path buffer each time
+        strcpy(path, "./");
+        strcat(path, entry->d_name);
+
+        // Get file metadata
+        if (stat(path, &fileStat) != 0) {
+            printf("%-30s %-10s %-12s %s", entry->d_name, "ERROR", "-", "-\n");
+            continue;
+        }
+
+        const char *type = S_ISDIR(fileStat.st_mode) ? "Directory" : "File";
+
+        printf("%-30s %-10s %-12ld %s",
+               entry->d_name,
+               type,
+               fileStat.st_size,
+               ctime(&fileStat.st_mtime));
+    }
+
+    closedir(dir);
+    return 0;
+}
+
+```
+
+## Explanation of Format Specifiers
+
+In the `printf()` statements:
+
+| Format   | Meaning                                                      |
+| -------- | ------------------------------------------------------------ |
+| `%-30s`  | Print a string, left-aligned, in a 30-character field        |
+| `%-10s`  | String in 10-character field (e.g., "File", "Directory")     |
+| `%-12ld` | Long integer (file size), left-aligned in 12-character field |
+| `%s`     | Human-readable time string from `ctime()`                    |
