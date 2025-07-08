@@ -517,3 +517,111 @@ int main() {
 * The **change of directory using `chdir` is only effective during the program’s execution**.
 * Once the program terminates, the **original working directory** (from which the program was started) is **restored** by the operating system.
 * This behavior makes `chdir` useful for temporarily accessing files or executing operations in different directory contexts.
+
+# **Directory Handling in C**
+
+## Concept Overview
+
+* A **directory** is a special type of file used by the operating system to organize and manage files.
+* It functions like a database, storing references to files located on the storage device.
+* Directories can be opened, read from, and closed in a manner similar to regular files.
+
+## Header File
+
+To work with directories in C, include the following header:
+
+```c
+#include <dirent.h>
+```
+
+This header provides the necessary definitions and function prototypes for directory operations.
+
+## Key Data Types and Functions
+
+### `DIR*`
+
+* A pointer to a directory stream.
+* Similar to a `FILE*` used for file operations.
+* Used to reference an open directory.
+
+### `struct dirent`
+
+* Represents an entry (file or subdirectory) within a directory.
+* Key member:
+
+  * `char d_name[]`: Name of the file or directory.
+
+## Function Overview
+
+### `opendir(const char *dirname)`
+
+* Opens a directory stream corresponding to the directory name.
+* Returns a `DIR*` on success, or `NULL` on failure.
+
+**Example:**
+
+```c
+DIR *directory = opendir(".");
+```
+
+* `"."` refers to the current directory.
+
+### `readdir(DIR *dirp)`
+
+* Reads the next entry in the directory stream.
+* Returns a pointer to a `struct dirent` representing the directory entry.
+* Returns `NULL` when no more entries are available.
+
+**Example:**
+
+```c
+struct dirent *file;
+file = readdir(directory);
+```
+
+* To loop through all files:
+
+```c
+while ((file = readdir(directory)) != NULL) {
+    printf("%s\n", file->d_name);
+}
+```
+
+### `closedir(DIR *dirp)`
+
+* Closes an opened directory stream.
+* Returns 0 on success, or -1 on error.
+
+**Example:**
+
+```c
+closedir(directory);
+```
+
+## Example Program
+
+```c
+#include <stdio.h>
+#include <dirent.h>
+
+int main() {
+    DIR *directory;
+    struct dirent *file;
+
+    // Open current directory
+    directory = opendir(".");
+    if (directory == NULL) {
+        perror("Unable to open directory");
+        return 1;
+    }
+
+    // Read and print all entries
+    while ((file = readdir(directory)) != NULL) {
+        printf("%s\n", file->d_name);
+    }
+
+    // Close directory
+    closedir(directory);
+    return 0;
+}
+```
