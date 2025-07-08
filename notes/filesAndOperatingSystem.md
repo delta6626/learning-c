@@ -315,3 +315,112 @@ int fseek(FILE *stream, long int offset, int whence);
 * Uniform data (equal-sized records) is essential for `fseek` to work correctly.
 * The second argument in `fseek` must be carefully calculated using `sizeof()` to ensure correct positioning.
 * Always validate user input when accessing specific records to avoid file errors or corruption.
+
+# **File Manipulation**
+
+The C Standard Library provides a limited set of file manipulation functions. While it includes essential operations like reading and writing files, it lacks built-in functions for tasks such as copying a file. However, C programmers can handle such limitations by writing their own utilities using low-level file operations.
+
+#### **1. Renaming a File**
+
+**Function:** `rename()`
+
+* **Header File:** `<stdio.h>`
+* **Prototype:** `int rename(const char *oldname, const char *newname);`
+* **Description:** Renames a file from `oldname` to `newname`.
+* **Return Value:**
+
+  * `0` on success
+  * Non-zero on failure (e.g., if the original file doesn’t exist or the new name is invalid)
+
+**Usage Example:**
+
+```c
+rename("alpha.txt", "a.txt");
+```
+
+* In this example, the file `alpha.txt` is renamed to `a.txt`.
+* Both filenames can include full paths (e.g., `"./folder/alpha.txt"`).
+
+#### **2. Deleting a File**
+
+**Function:** `unlink()`
+
+* **Header File:** `<unistd.h>`
+* **Prototype:** `int unlink(const char *pathname);`
+* **Description:** Deletes the file specified by `pathname`.
+* **Return Value:**
+
+  * `0` on success
+  * `-1` on failure (e.g., file not found, permission denied)
+
+**Usage Example:**
+
+```c
+unlink("deleteme.txt");
+```
+
+* This deletes the file `deleteme.txt` from the current working directory.
+* Works with full path names as well.
+
+#### **3. Copying a File (Manual Implementation)**
+
+The C Standard Library **does not include a file copy function**, so programmers implement their own.
+
+**Approach:**
+
+1. Open the source file in read mode.
+2. Open/create the destination file in write mode.
+3. Read the source file byte-by-byte and write each byte to the destination file.
+4. Close both files.
+
+**Function Signature:**
+
+```c
+int copyFile(const char *source, const char *destination);
+```
+
+**Core Logic:**
+
+```c
+int copyFile(const char *source, const char *destination) {
+    FILE *src = fopen(source, "rb");
+    FILE *dest = fopen(destination, "wb");
+
+    if (src == NULL || dest == NULL) {
+        return -1;  // Error handling
+    }
+
+    int ch;
+    while ((ch = fgetc(src)) != EOF) {
+        fputc(ch, dest);
+    }
+
+    fclose(src);
+    fclose(dest);
+    return 0;
+}
+```
+
+* **"rb"** and **"wb"**: These modes are used to ensure binary-safe reading and writing.
+* The `while` loop copies each byte until EOF is reached.
+* `fgetc()` reads a single byte; `fputc()` writes a single byte.
+* Returns `0` on success and `-1` if an error occurred.
+
+### **4. Return Value Conventions**
+
+All these functions return `0` on success, and a **non-zero (usually -1)** value on failure. This convention is consistent with other system-level file operations in C.
+
+### **5. Summary Table**
+
+| Operation   | Function   | Header       | Description                         | Success Return |
+| ----------- | ---------- | ------------ | ----------------------------------- | -------------- |
+| Rename file | `rename()` | `<stdio.h>`  | Renames a file                      | `0`            |
+| Delete file | `unlink()` | `<unistd.h>` | Deletes a file                      | `0`            |
+| Copy file   | *custom*   | `<stdio.h>`  | Copies contents from one to another | `0` (custom)   |
+
+### **6. Best Practices**
+
+* Always check if file pointers returned by `fopen()` are `NULL`.
+* Prefer `"rb"` and `"wb"` modes for copying to handle all file types.
+* Handle errors gracefully and report failures to the user.
+* Close all opened files to avoid memory leaks or file corruption.
