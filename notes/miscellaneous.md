@@ -248,3 +248,172 @@ man math
 ```
 
 This opens the manual pages for `math.h`, listing all available functions, constants, and usage tips.
+
+# **Working with Time**
+
+C provides built-in functionality for **tracking and formatting time**, primarily using types and functions from the **`<time.h>`** header. These allow programs to:
+
+* Get the current time
+* Format time into human-readable strings
+* Extract and manipulate individual components like year, hour, day, etc.
+
+## **1. Header File**
+
+```c
+#include <time.h>
+```
+
+This header provides:
+
+* `time_t`: A type to store time values (Unix epoch time)
+* `tm`: A structure holding broken-down time components
+* Functions like `time()`, `ctime()`, `localtime()`, etc.
+
+## **2. The `time_t` Type**
+
+### **Definition:**
+
+* An alias for a large integer type (usually `long`) that holds time as the **number of seconds since the Unix Epoch**, which is:
+
+> **January 1, 1970, 00:00:00 UTC**
+
+### **Declaring and Using `time_t`:**
+
+```c
+time_t now;
+now = time(NULL);
+```
+
+* `time(NULL)` returns the current time as a `time_t` value.
+* The result is the **current epoch time**, i.e., seconds since 1970.
+
+## **3. Displaying Epoch Time**
+
+```c
+printf("Epoch time: %ld\n", now);
+```
+
+* `%ld` is used because `time_t` is typically a `long int`.
+
+## **4. Converting Epoch to Human-Readable Time**
+
+### **Function: `ctime()`**
+
+```c
+char *ctime(const time_t *timeptr);
+```
+
+* Converts a `time_t` value to a human-readable string.
+* Includes the date, time, and newline.
+
+### **Example:**
+
+```c
+printf("Current time: %s", ctime(&now));
+```
+
+> Use `&now` because `ctime()` expects a pointer.
+
+## **5. Extracting Components of Time**
+
+To get specific parts (like year, month, weekday, hour), use:
+
+### **Function: `localtime()`**
+
+```c
+struct tm *localtime(const time_t *timeptr);
+```
+
+* Converts a `time_t` value to a `tm` structure representing **local time**.
+* Returns a pointer to a `struct tm`.
+
+### **`struct tm` Definition (simplified):**
+
+| Member     | Meaning                   | Notes                             |
+| ---------- | ------------------------- | --------------------------------- |
+| `tm_sec`   | Seconds (0–60)            | Includes leap seconds             |
+| `tm_min`   | Minutes (0–59)            |                                   |
+| `tm_hour`  | Hours (0–23)              |                                   |
+| `tm_mday`  | Day of the month (1–31)   |                                   |
+| `tm_mon`   | Month (0–11)              | 0 = January                       |
+| `tm_year`  | Years since 1900          | Add 1900 for current year         |
+| `tm_wday`  | Day of the week (0–6)     | 0 = Sunday                        |
+| `tm_yday`  | Day of the year (0–365)   |                                   |
+| `tm_isdst` | Daylight saving time flag | > 0 if DST, 0 if not, < 0 unknown |
+
+## **6. Example: Extracting and Printing Time Components**
+
+```c
+struct tm *timestamp;
+timestamp = localtime(&now);
+printf("Time: %02d:%02d:%02d\n", timestamp->tm_hour, timestamp->tm_min, timestamp->tm_sec);
+```
+
+* Formats time as HH\:MM\:SS using `tm_hour`, `tm_min`, and `tm_sec`.
+
+## **7. Representing Weekdays and Months**
+
+Since `tm_mon` and `tm_wday` are zero-based (0 = January, 0 = Sunday), you often map them using arrays:
+
+```c
+char *months[] = {"January", "February", "March", "April", ..., "December"};
+char *weekdays[] = {"Sunday", "Monday", ..., "Saturday"};
+
+printf("Today is %s, %s %d\n", 
+    weekdays[timestamp->tm_wday], 
+    months[timestamp->tm_mon], 
+    timestamp->tm_mday);
+```
+
+> Always account for zero-based indexing.
+
+## **8. Dealing with `tm_year`**
+
+The `tm_year` field returns the number of years **since 1900**. So, to get hte current year, increment  it by 1900.
+
+### Example:
+
+```c
+int currentYear = timestamp->tm_year + 1900;
+```
+
+## **8. Further Resources**
+
+* For more detail, run:
+
+```bash
+man localtime
+```
+
+* This will show documentation for `struct tm` and related time functions on Unix systems.
+
+## **Example Program (Full)**
+
+```c
+#include <stdio.h>
+#include <time.h>
+
+int main() {
+    time_t now = time(NULL);
+    printf("Epoch time: %ld\n", now);
+
+    printf("Human-readable: %s", ctime(&now));
+
+    struct tm *t = localtime(&now);
+
+    char *months[] = {"January", "February", "March", "April", "May", "June",
+                      "July", "August", "September", "October", "November", "December"};
+    char *days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
+    printf("Detailed: %s, %s %d, %d %02d:%02d:%02d\n",
+           days[t->tm_wday],
+           months[t->tm_mon],
+           t->tm_mday,
+           t->tm_year + 1900,
+           t->tm_hour,
+           t->tm_min,
+           t->tm_sec);
+
+    return 0;
+}
+```
