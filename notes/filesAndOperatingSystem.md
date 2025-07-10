@@ -764,3 +764,5 @@ In the `printf()` statements:
 | `%-10s`  | String in 10-character field (e.g., "File", "Directory")     |
 | `%-12ld` | Long integer (file size), left-aligned in 12-character field |
 | `%s`     | Human-readable time string from `ctime()`                    |
+
+# Generating random numbers
