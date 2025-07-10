@@ -37,7 +37,7 @@ int main()
     }
   }
 
-  printf("Yikes! You lost. No worries though, try again.\n");
+  printf("Yikes! You lost. The correct number was %d.\n", number);
 
   return 0;
 }
