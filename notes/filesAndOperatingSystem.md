@@ -773,6 +773,7 @@ In the `printf()` statements:
 * It is declared in the `stdlib.h` header file.
 * The function returns an integer (`int`) in the range of 0 to `RAND_MAX`.
 * `RAND_MAX` is a macro constant defined in the `stdlib.h` header file.
+* `RAND_MAX` is typically 32767 on many systems (but it can vary).
 * Usage:
 
   ```c
