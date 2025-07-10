@@ -799,7 +799,7 @@ In the `printf()` statements:
 * Example: To get values between 0 and 99:
 
   ```c
-  int r = rand() % 100;  // Values from 0 to 99
+  int r = rand() % 100;  // Values from 0 to 99 because possible remainders are 0 to 99.
   ```
 
 #### **4. Avoiding Zero in Output (Shifting the Range)**
