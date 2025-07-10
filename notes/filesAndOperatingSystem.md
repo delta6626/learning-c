@@ -873,3 +873,43 @@ int r = (rand() % 100) + 1;       // Random number between 1 and 100
 ```
 
 This approach is widely used in C programs for generating random numbers needed in games, simulations, and testing scenarios.
+
+# **Quicksort with `qsort()`**
+
+### **Concept**
+
+* A much **faster sorting algorithm** compared to bubble sort.
+* Built into the **C standard library** via the `qsort()` function.
+* Utilizes **divide-and-conquer** strategy for sorting.
+
+### **`qsort()` Function**
+
+* **Function signature:**
+
+  ```c
+  void qsort(void *base, size_t num, size_t size, int (*compar)(const void *, const void *));
+  ```
+
+### **Parameters:**
+
+1. **Base address of the array** to sort (`list`).
+2. **Number of elements** in the array (`SIZE`).
+3. **Size of each element** (`sizeof(int)`).
+4. **Comparison function pointer** (`compare`).
+
+### **Compare Function:**
+
+* Has a **specific format** expected by `qsort()`.
+* Receives two `const void*` pointers, which are cast to `int*` inside the function.
+* Returns:
+
+  * **Negative value**: If first element is **less than** second.
+  * **Zero**: If elements are **equal**.
+  * **Positive value**: If first element is **greater than** second.
+* Used by `qsort()` to determine when to swap elements.
+* Most programmers **copy and paste** this function due to its complexity.
+
+### **Performance:**
+
+* Faster than bubble sort, especially for large data sets.
+* Performance gain may not be visible with just 100 values but is significant with larger datasets.
