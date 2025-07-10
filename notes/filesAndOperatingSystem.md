@@ -772,6 +772,7 @@ In the `printf()` statements:
 * The `rand()` function is used to generate random numbers in C.
 * It is declared in the `stdlib.h` header file.
 * The function returns an integer (`int`) in the range of 0 to `RAND_MAX`.
+* `RAND_MAX` is a macro constant defined in the `stdlib.h` header file.
 * Usage:
 
   ```c
