@@ -752,3 +752,29 @@ Here, `scanf` takes a **pointer to a variable** and writes into it — just like
 * Or, assign the address to a pointer and pass the pointer itself.
 * **Uninitialized pointers** should **never** be passed to functions — doing so leads to undefined behavior.
 * Always make sure that the pointer points to a **valid memory location** before use.
+
+# The calloc() function
+
+### `calloc(n, size)`
+
+* Allocates memory for `n` elements.
+* **Initializes all bytes to 0**.
+* Safer for arrays (e.g. counters, zeroed structs).
+
+### `malloc(size)`
+
+* Allocates memory.
+* **Does not** initialize it.
+* Memory contains **garbage** values.
+
+### When to use `calloc`:
+
+* You need all values to start at 0.
+* Avoid uninitialized variable bugs.
+
+### Example:
+
+```c
+int *arr1 = malloc(10 * sizeof(int));   // Garbage values
+int *arr2 = calloc(10, sizeof(int));    // All values set to 0
+```
