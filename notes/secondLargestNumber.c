@@ -43,7 +43,14 @@ int main()
     }
   }
 
-  printf("The second largest number entered is: %d\n", secondMax);
+  if (secondMax == INT_MIN)
+  {
+    printf("No minimum found. All numbers are same.\n");
+  }
+  else
+  {
+    printf("The second larges number is: %d\n", secondMax);
+  }
 
   free(nums);
 
