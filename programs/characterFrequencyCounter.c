@@ -42,5 +42,8 @@ int main()
     }
   }
 
+  free(sentence);
+  free(countArray);
+
   return 0;
 }
