@@ -949,3 +949,17 @@ int main() {
   enum Colors { RED, GREEN, BLUE };
   // RED = 0, GREEN = 1, BLUE = 2
   ```
+
+### Custom Values
+
+* You can explicitly assign values to enum constants:
+
+  ```c
+  enum Level { LOW = 1, MEDIUM = 5, HIGH = 10 };
+  ```
+* If a value is not specified, it is automatically incremented from the previous one:
+
+  ```c
+  enum Example { A = 1, B, C = 5, D };
+  // A = 1, B = 2, C = 5, D = 6
+  ```
