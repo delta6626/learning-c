@@ -901,3 +901,51 @@ int main() {
 ## Operator Precedence Note
 
 Unary operators have **higher precedence** than arithmetic or logical operators, which is why `-a + b` works as expected. But be careful with parentheses when mixing with logical operators like `!`.
+
+# Enums
+
+An **enum** (short for *enumeration*) is a user-defined data type in C that allows a programmer to assign names to a set of integer constants, improving code readability and manageability.
+
+### Syntax
+
+```c
+enum enum_name {
+    constant1,
+    constant2,
+    constant3,
+    ...
+};
+```
+
+You can also declare variables when defining:
+
+```c
+enum enum_name {
+    constant1,
+    constant2
+} variable_name;
+```
+
+### Example
+
+```c
+#include <stdio.h>
+
+enum Days { SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY };
+
+int main() {
+    enum Days today = WEDNESDAY;
+    printf("Day: %d\n", today); // Output: 3
+    return 0;
+}
+```
+
+### Default Values
+
+* By default, the first name in an enum has the value `0`, the next `1`, and so on.
+* Example:
+
+  ```c
+  enum Colors { RED, GREEN, BLUE };
+  // RED = 0, GREEN = 1, BLUE = 2
+  ```
