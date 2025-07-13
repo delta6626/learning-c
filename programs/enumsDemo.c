@@ -5,8 +5,8 @@ int main()
 
   enum PowerStatus
   {
-    ON,
-    OFF
+    ON = 1,
+    OFF = 0
   };
 
   enum PowerStatus s1 = ON;
