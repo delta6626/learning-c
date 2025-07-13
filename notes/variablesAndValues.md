@@ -963,3 +963,24 @@ int main() {
   enum Example { A = 1, B, C = 5, D };
   // A = 1, B = 2, C = 5, D = 6
   ```
+
+### Typedef with Enum
+
+To simplify usage:
+
+```c
+typedef enum { OFF, ON } SwitchState;
+SwitchState s1 = ON;
+```
+
+### Uses of Enum
+
+* Improves code readability.
+* Makes it easier to manage sets of related constants.
+* Reduces the chances of assigning invalid values (compared to `#define`).
+
+### Notes
+
+* Enum constants are essentially integers.
+* Enums do **not** provide strict type safety in C (unlike in C++).
+* You can use enums in `switch` statements for cleaner logic handling.
