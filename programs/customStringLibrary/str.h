@@ -1,2 +1,2 @@
-int strlen(char *str);
-char *strcpy(char *src, char *dst);
+int stringLength(char *string);
+char *stringCopy(char *source, char *destination);
