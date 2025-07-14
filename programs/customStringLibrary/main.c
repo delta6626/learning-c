@@ -13,6 +13,8 @@ int main()
 
   printf("The reverse of the string %s is %s\n", name, stringReverse(name));
 
+  printf("The position of n in the the string Hasan is %d\n", stringCharacterPosition("Hasan", 'n'));
+
   free(nameCopy);
 
   return 0;

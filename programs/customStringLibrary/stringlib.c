@@ -39,3 +39,16 @@ char *stringReverse(char *string)
   reversedString[x] = '\0';
   return reversedString;
 }
+
+int stringCharacterPosition(char *string, char character)
+{
+  for (int x = 0; x < stringLength(string); x++)
+  {
+    if (string[x] == character)
+    {
+      return x;
+    }
+  }
+
+  return -1; // Not found
+}
