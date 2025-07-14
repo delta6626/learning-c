@@ -1,2 +1,2 @@
 int stringLength(char *string);
-char *stringCopy(char *source, char *destination);
+void stringCopy(char *source, char *destination);

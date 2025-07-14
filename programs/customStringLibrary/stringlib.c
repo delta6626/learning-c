@@ -9,3 +9,11 @@ int stringLength(char *string)
   }
   return l;
 }
+
+void stringCopy(char *source, char *destination)
+{
+  for (int i = 0; i < stringLength(source) + 1; i++)
+  {
+    *(destination + i) = *(source + i);
+  }
+}
