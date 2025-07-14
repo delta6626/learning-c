@@ -1,2 +1,3 @@
 int stringLength(char *string);
 void stringCopy(char *source, char *destination);
+char *stringReverse(char *string);
