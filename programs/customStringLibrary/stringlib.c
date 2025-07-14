@@ -52,3 +52,9 @@ int stringCharacterPosition(char *string, char character)
 
   return -1; // Not found
 }
+
+int charToCode(char character)
+{
+  int x = character;
+  return x;
+}
