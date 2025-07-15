@@ -67,3 +67,11 @@ void stringUpper(char *string)
     *(string + x) = toupper(*(string + x));
   }
 }
+
+void stringLower(char *string)
+{
+  for (int x = 0; x < stringLength(string); x++)
+  {
+    *(string + x) = tolower(*(string + x));
+  }
+}
