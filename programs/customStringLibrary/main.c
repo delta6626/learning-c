@@ -15,6 +15,14 @@ int main()
 
   printf("The position of n in the the string Hasan is %d\n", stringCharacterPosition("Hasan", 'n'));
 
+  stringUpper(nameCopy);
+
+  printf("The name %s in uppercase is %s\n", name, nameCopy);
+
+  stringLower(nameCopy);
+
+  printf("The name %s in lowercase is %s\n", name, nameCopy);
+
   free(nameCopy);
 
   return 0;
