@@ -77,7 +77,23 @@ int stringIsNumeric(char *string)
 {
   for (int x = 0; x < stringLength(string); x++)
   {
-    if (!(charToCode(string[x]) >= 48 && charToCode(string[x]) <= 57))
+    int code = charToCode(string[x]);
+    if (code < 48 || code > 57)
+    {
+      return -1;
+    }
+  }
+
+  return 1;
+}
+
+int stringIsAlpha(char *string)
+{
+  for (int x = 0; x < stringLength(string); x++)
+  {
+    int code = charToCode(string[x]);
+
+    if (!((code >= 65 && code <= 90) || (code >= 97 && code <= 122)))
     {
       return -1;
     }

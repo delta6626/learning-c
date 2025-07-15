@@ -6,3 +6,4 @@ int charToCode(char character);
 void stringUpper(char *string);
 void stringLower(char *string);
 int stringIsNumeric(char *string);
+int stringIsAlpha(char *string);
