@@ -11,7 +11,10 @@ int main()
   stringCopy(name, nameCopy);
   printf("Original - %s\nCopied - %s\n", name, nameCopy);
 
-  printf("The reverse of the string %s is %s\n", name, stringReverse(name));
+  stringReverse(nameCopy);
+  printf("The reverse of the string %s is %s\n", name, nameCopy);
+
+  stringReverse(nameCopy);
 
   printf("The position of n in the the string Hasan is %d\n", stringCharacterPosition("Hasan", 'n'));
 
