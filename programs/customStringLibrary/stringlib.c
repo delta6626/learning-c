@@ -1,6 +1,7 @@
 // stringlib - My implementation of some common string functions from <string.h>
 
 #include <stdlib.h>
+#include <ctype.h>
 
 int stringLength(char *string)
 {
@@ -57,4 +58,12 @@ int charToCode(char character)
 {
   int x = character;
   return x;
+}
+
+void stringUpper(char *string)
+{
+  for (int x = 0; x < stringLength(string); x++)
+  {
+    *(string + x) = toupper(*(string + x));
+  }
 }
