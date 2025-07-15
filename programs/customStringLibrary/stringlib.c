@@ -21,24 +21,21 @@ void stringCopy(char *source, char *destination)
   }
 }
 
-char *stringReverse(char *string)
+void stringReverse(char *string)
 {
-  int x = 0;
-  int y = stringLength(string);
+  int left = 0;
+  int right = stringLength(string) - 1;
 
-  char *reversedString = malloc(sizeof(char) * (y + 1));
-  if (!reversedString)
-    return NULL;
+  char temp;
 
-  while (y > 0)
+  while (left < right)
   {
-    reversedString[x] = string[y - 1];
-    y--;
-    x++;
+    temp = *(string + left);
+    *(string + left) = *(string + right);
+    *(string + right) = temp;
+    left++;
+    right--;
   }
-
-  reversedString[x] = '\0';
-  return reversedString;
 }
 
 int stringCharacterPosition(char *string, char character)
