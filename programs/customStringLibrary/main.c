@@ -26,6 +26,8 @@ int main()
 
   printf("The name %s in lowercase is %s\n", name, nameCopy);
 
+    
+
   free(nameCopy);
 
   return 0;

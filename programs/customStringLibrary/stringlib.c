@@ -72,3 +72,16 @@ void stringLower(char *string)
     *(string + x) = tolower(*(string + x));
   }
 }
+
+int stringIsNumeric(char *string)
+{
+  for (int x = 0; x < stringLength(string); x++)
+  {
+    if (!(charToCode(string[x]) >= 48 && charToCode(string[x]) <= 57))
+    {
+      return -1;
+    }
+  }
+
+  return 1;
+}
