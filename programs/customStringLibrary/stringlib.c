@@ -101,3 +101,30 @@ int stringIsAlpha(char *string)
 
   return 1;
 }
+
+char *stringConcat(char *string1, char *string2)
+{
+  int l1 = stringLength(string1);
+  int l2 = stringLength(string2);
+
+  char *concatenatedString = malloc(sizeof(char) * (l1 + l2 + 1));
+
+  if (!concatenatedString)
+  {
+    return NULL;
+  }
+
+  for (int x = 0; x < l1; x++)
+  {
+    concatenatedString[x] = string1[x];
+  }
+
+  for (int x = 0; x < l2; x++)
+  {
+    concatenatedString[l1 + x] = string2[x];
+  }
+
+  concatenatedString[l1 + l2] = '\0';
+
+  return concatenatedString;
+}
