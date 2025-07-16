@@ -8,3 +8,4 @@ void stringLower(char *string);
 int stringIsNumeric(char *string);
 int stringIsAlpha(char *string);
 char *stringConcat(char *string1, char *string2);
+int stringStartsWith(char *string);

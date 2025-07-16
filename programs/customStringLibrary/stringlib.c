@@ -128,3 +128,17 @@ char *stringConcat(char *string1, char *string2)
 
   return concatenatedString;
 }
+
+int stringStartsWith(char *string, char *substring)
+{
+  int substringLength = stringLength(substring);
+  for (int x = 0; x < substringLength; x++)
+  {
+    if (string[x] != substring[x])
+    {
+      return -1;
+    }
+  }
+
+  return 1;
+}
