@@ -26,9 +26,12 @@ int main()
 
   printf("The name %s in lowercase is %s\n", name, nameCopy);
 
-    
+  char *concatenatedNames = stringConcat(name, nameCopy);
+
+  printf("The concatenation of %s and %s is %s\n", name, nameCopy, concatenatedNames);
 
   free(nameCopy);
+  free(concatenatedNames);
 
   return 0;
 }
